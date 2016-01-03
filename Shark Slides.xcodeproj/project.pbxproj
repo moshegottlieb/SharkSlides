@@ -7,12 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A36507B1C2FF82100326A9C /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36507A1C2FF82100326A9C /* MediaLibrary.swift */; };
+		9A36507F1C30125D00326A9C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36507E1C30125D00326A9C /* MainViewController.swift */; };
+		9A788A1D1C302ADF00ADF0EC /* SourceSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A788A1B1C302ADF00ADF0EC /* SourceSelectViewController.swift */; };
 		9A8077481C060597002432D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8077471C060597002432D4 /* AppDelegate.swift */; };
-		9A80774A1C060597002432D4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8077491C060597002432D4 /* ViewController.swift */; };
+		9A80774A1C060597002432D4 /* LoadingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8077491C060597002432D4 /* LoadingController.swift */; };
 		9A80774C1C060597002432D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A80774B1C060597002432D4 /* Assets.xcassets */; };
 		9A80774F1C060597002432D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A80774D1C060597002432D4 /* Main.storyboard */; };
 		9A80775A1C060597002432D4 /* Shark_SlidesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8077591C060597002432D4 /* Shark_SlidesTests.swift */; };
 		9A8077651C060597002432D4 /* Shark_SlidesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8077641C060597002432D4 /* Shark_SlidesUITests.swift */; };
+		9A8D05881C38FD0600B55030 /* ShowContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D05871C38FD0600B55030 /* ShowContentViewController.swift */; };
+		9A8D058A1C38FE8600B55030 /* ShowImageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D05891C38FE8600B55030 /* ShowImageContentViewController.swift */; };
+		9A8D058E1C3905B600B55030 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D058D1C3905B600B55030 /* Transition.swift */; };
+		9A8D05901C390C7000B55030 /* FadeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D058F1C390C7000B55030 /* FadeTransition.swift */; };
+		9A8FEC141C32726200F457E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A8FEC131C32726200F457E0 /* Localizable.strings */; };
+		9A8FEC161C327A6E00F457E0 /* NSURL+Sandbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8FEC151C327A6E00F457E0 /* NSURL+Sandbox.swift */; };
+		9A8FEC1C1C32CD4300F457E0 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8FEC1B1C32CD4300F457E0 /* Timer.swift */; };
+		9A9B43A21C3176F3001A033A /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B43A11C3176F3001A033A /* ImageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,9 +44,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9A36507A1C2FF82100326A9C /* MediaLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
+		9A36507E1C30125D00326A9C /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		9A788A1B1C302ADF00ADF0EC /* SourceSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceSelectViewController.swift; sourceTree = "<group>"; };
 		9A8077441C060597002432D4 /* Shark Slides.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shark Slides.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A8077471C060597002432D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9A8077491C060597002432D4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9A8077491C060597002432D4 /* LoadingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingController.swift; sourceTree = "<group>"; };
 		9A80774B1C060597002432D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A80774E1C060597002432D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9A8077501C060597002432D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,6 +59,15 @@
 		9A8077601C060597002432D4 /* Shark SlidesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Shark SlidesUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A8077641C060597002432D4 /* Shark_SlidesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shark_SlidesUITests.swift; sourceTree = "<group>"; };
 		9A8077661C060597002432D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9A8077721C0605E2002432D4 /* Shark Slides.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Shark Slides.entitlements"; sourceTree = "<group>"; };
+		9A8D05871C38FD0600B55030 /* ShowContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowContentViewController.swift; sourceTree = "<group>"; };
+		9A8D05891C38FE8600B55030 /* ShowImageContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowImageContentViewController.swift; sourceTree = "<group>"; };
+		9A8D058D1C3905B600B55030 /* Transition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
+		9A8D058F1C390C7000B55030 /* FadeTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FadeTransition.swift; sourceTree = "<group>"; };
+		9A8FEC131C32726200F457E0 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		9A8FEC151C327A6E00F457E0 /* NSURL+Sandbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Sandbox.swift"; sourceTree = "<group>"; };
+		9A8FEC1B1C32CD4300F457E0 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		9A9B43A11C3176F3001A033A /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,11 +118,23 @@
 		9A8077461C060597002432D4 /* Shark Slides */ = {
 			isa = PBXGroup;
 			children = (
+				9A36507A1C2FF82100326A9C /* MediaLibrary.swift */,
+				9A8077721C0605E2002432D4 /* Shark Slides.entitlements */,
 				9A8077471C060597002432D4 /* AppDelegate.swift */,
-				9A8077491C060597002432D4 /* ViewController.swift */,
+				9A8077491C060597002432D4 /* LoadingController.swift */,
 				9A80774B1C060597002432D4 /* Assets.xcassets */,
 				9A80774D1C060597002432D4 /* Main.storyboard */,
 				9A8077501C060597002432D4 /* Info.plist */,
+				9A36507E1C30125D00326A9C /* MainViewController.swift */,
+				9A788A1B1C302ADF00ADF0EC /* SourceSelectViewController.swift */,
+				9A9B43A11C3176F3001A033A /* ImageViewController.swift */,
+				9A8FEC131C32726200F457E0 /* Localizable.strings */,
+				9A8FEC151C327A6E00F457E0 /* NSURL+Sandbox.swift */,
+				9A8FEC1B1C32CD4300F457E0 /* Timer.swift */,
+				9A8D05871C38FD0600B55030 /* ShowContentViewController.swift */,
+				9A8D05891C38FE8600B55030 /* ShowImageContentViewController.swift */,
+				9A8D058D1C3905B600B55030 /* Transition.swift */,
+				9A8D058F1C390C7000B55030 /* FadeTransition.swift */,
 			);
 			path = "Shark Slides";
 			sourceTree = "<group>";
@@ -184,12 +219,21 @@
 		9A80773C1C060597002432D4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = Sharkfood;
 				TargetAttributes = {
 					9A8077431C060597002432D4 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = 2SEZH94Q48;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 0;
+							};
+						};
 					};
 					9A8077541C060597002432D4 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -227,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A80774C1C060597002432D4 /* Assets.xcassets in Resources */,
+				9A8FEC141C32726200F457E0 /* Localizable.strings in Resources */,
 				9A80774F1C060597002432D4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,8 +297,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A80774A1C060597002432D4 /* ViewController.swift in Sources */,
+				9A788A1D1C302ADF00ADF0EC /* SourceSelectViewController.swift in Sources */,
+				9A8FEC161C327A6E00F457E0 /* NSURL+Sandbox.swift in Sources */,
+				9A80774A1C060597002432D4 /* LoadingController.swift in Sources */,
+				9A8D058A1C38FE8600B55030 /* ShowImageContentViewController.swift in Sources */,
+				9A36507F1C30125D00326A9C /* MainViewController.swift in Sources */,
 				9A8077481C060597002432D4 /* AppDelegate.swift in Sources */,
+				9A8D058E1C3905B600B55030 /* Transition.swift in Sources */,
+				9A9B43A21C3176F3001A033A /* ImageViewController.swift in Sources */,
+				9A8D05881C38FD0600B55030 /* ShowContentViewController.swift in Sources */,
+				9A36507B1C2FF82100326A9C /* MediaLibrary.swift in Sources */,
+				9A8D05901C390C7000B55030 /* FadeTransition.swift in Sources */,
+				9A8FEC1C1C32CD4300F457E0 /* Timer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,11 +439,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Shark Slides/Shark Slides.entitlements";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Shark Slides/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sharkfood.Shark-Slides";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -396,11 +457,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Shark Slides/Shark Slides.entitlements";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Shark Slides/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sharkfood.Shark-Slides";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -475,6 +541,7 @@
 				9A80776B1C060597002432D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9A80776C1C060597002432D4 /* Build configuration list for PBXNativeTarget "Shark SlidesTests" */ = {
 			isa = XCConfigurationList;
@@ -483,6 +550,7 @@
 				9A80776E1C060597002432D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9A80776F1C060597002432D4 /* Build configuration list for PBXNativeTarget "Shark SlidesUITests" */ = {
 			isa = XCConfigurationList;
@@ -491,6 +559,7 @@
 				9A8077711C060597002432D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

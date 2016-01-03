@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        // Insert code here to initialize your application
+        NSUserDefaults.standardUserDefaults().registerDefaults(["interval":1.0,"shuffle":true, "transition.duration":0.3, "transition":"Fade"])
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {

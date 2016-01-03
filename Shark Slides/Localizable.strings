@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  Shark Slides
+
+  Created by Moshe Gottlieb on 29/12/2015.
+  Copyright © 2015 Sharkfood. All rights reserved.
+*/
+
+OPEN_PANEL_GRANT_ACCESS="Your Photos library is not in it's default location, please grant access to it by selecting it and hitting Done";
