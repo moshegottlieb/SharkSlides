@@ -12,7 +12,6 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
 
-
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         NSUserDefaults.standardUserDefaults().registerDefaults(["interval":1.0,"shuffle":true, "transition.duration":0.3, "transition":"Fade"])
     }

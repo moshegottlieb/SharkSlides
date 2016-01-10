@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="CwC-mg-tSw">
     <dependencies>
         <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.AVKitIBPlugin" version="9531"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
@@ -655,7 +656,7 @@
                     <window key="window" title="Shark Slides" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="YCs-nN-Mpy">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="425" y="461" width="480" height="270"/>
+                        <rect key="contentRect" x="425" y="461" width="253" height="231"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
                         <value key="maxSize" type="size" width="253" height="231"/>
                     </window>
@@ -743,7 +744,7 @@
                                         <rect key="frame" x="0.0" y="59" width="213" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="H1e-TZ-2J1">
-                                                <rect key="frame" x="-2" y="2.5" width="123" height="17"/>
+                                                <rect key="frame" x="-2" y="2" width="123" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Show each slide for" id="sna-Tl-qzg">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -833,7 +834,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="213" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q6S-M2-di5">
-                                                <rect key="frame" x="-2" y="2.5" width="123" height="17"/>
+                                                <rect key="frame" x="-2" y="2" width="123" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Transition duration" id="iiU-Gp-SKy">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1177,7 +1178,7 @@ Gw
                 </viewController>
                 <customObject id="bf5-iL-q3J" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="425" y="381"/>
+            <point key="canvasLocation" x="827" y="317"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="kN6-ik-FxQ">
@@ -1219,13 +1220,34 @@ AAAAAAEGA
                                     </caTransition>
                                 </animations>
                             </progressIndicator>
+                            <customView wantsLayer="YES" canDrawConcurrently="YES" translatesAutoresizingMaskIntoConstraints="NO" id="41Q-z7-K6F">
+                                <rect key="frame" x="137" y="99" width="207" height="73"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dYy-jp-TvR">
+                                        <rect key="frame" x="6" y="8" width="195" height="57"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Message" id="QYh-zi-8Ex">
+                                            <font key="font" size="47" name="Helvetica"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="dYy-jp-TvR" secondAttribute="trailing" constant="8" id="9NI-KG-0Mm"/>
+                                    <constraint firstItem="dYy-jp-TvR" firstAttribute="leading" secondItem="41Q-z7-K6F" secondAttribute="leading" constant="8" id="O7j-k2-5pw"/>
+                                    <constraint firstItem="dYy-jp-TvR" firstAttribute="top" secondItem="41Q-z7-K6F" secondAttribute="top" constant="8" id="Yk2-6U-wPY"/>
+                                    <constraint firstAttribute="bottom" secondItem="dYy-jp-TvR" secondAttribute="bottom" constant="8" id="rzy-wK-Vym"/>
+                                </constraints>
+                            </customView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="cK6-ry-0YX" firstAttribute="leading" secondItem="P7L-sS-YWZ" secondAttribute="leading" id="1uo-f6-3Pz"/>
                             <constraint firstItem="2cN-1X-sBt" firstAttribute="centerX" secondItem="P7L-sS-YWZ" secondAttribute="centerX" id="7F8-fZ-SMF"/>
                             <constraint firstItem="cK6-ry-0YX" firstAttribute="top" secondItem="P7L-sS-YWZ" secondAttribute="top" id="BmO-QE-Ifk"/>
                             <constraint firstItem="2cN-1X-sBt" firstAttribute="centerY" secondItem="P7L-sS-YWZ" secondAttribute="centerY" id="C8z-35-61k"/>
+                            <constraint firstItem="41Q-z7-K6F" firstAttribute="centerX" secondItem="P7L-sS-YWZ" secondAttribute="centerX" id="HCP-7a-yUt"/>
                             <constraint firstAttribute="bottom" secondItem="cK6-ry-0YX" secondAttribute="bottom" id="Khy-r0-DTu"/>
+                            <constraint firstItem="41Q-z7-K6F" firstAttribute="centerY" secondItem="P7L-sS-YWZ" secondAttribute="centerY" id="PCb-6b-Qtq"/>
                             <constraint firstAttribute="trailing" secondItem="FxG-Kb-YcW" secondAttribute="trailing" id="RBn-Ap-uvX"/>
                             <constraint firstItem="FxG-Kb-YcW" firstAttribute="leading" secondItem="P7L-sS-YWZ" secondAttribute="leading" id="Ye2-kp-ixL"/>
                             <constraint firstAttribute="trailing" secondItem="cK6-ry-0YX" secondAttribute="trailing" id="Yjk-Nb-abl"/>
@@ -1237,11 +1259,40 @@ AAAAAAEGA
                         <outlet property="captureWindow" destination="cK6-ry-0YX" id="lji-IU-Xs5"/>
                         <outlet property="container" destination="FxG-Kb-YcW" id="ry9-4E-6BU"/>
                         <outlet property="loading" destination="2cN-1X-sBt" id="ZRE-Zg-A4N"/>
+                        <outlet property="message" destination="dYy-jp-TvR" id="w52-vA-09W"/>
+                        <outlet property="messageView" destination="41Q-z7-K6F" id="u0r-W5-iCb"/>
                     </connections>
                 </viewController>
                 <customObject id="1Au-4a-xlQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="448" y="750"/>
+            <point key="canvasLocation" x="460" y="807"/>
+        </scene>
+        <!--Show Video Content View Controller-->
+        <scene sceneID="gm5-oQ-iJH">
+            <objects>
+                <viewController storyboardIdentifier="ShowVideoContentViewController" id="iTS-1m-IAd" customClass="ShowVideoContentViewController" customModule="Shark_Slides" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="zk7-zj-7Vz">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <avPlayerView controlsStyle="none" translatesAutoresizingMaskIntoConstraints="NO" id="NlF-cC-dJP">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                            </avPlayerView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="NlF-cC-dJP" firstAttribute="leading" secondItem="zk7-zj-7Vz" secondAttribute="leading" id="4AR-UV-LHy"/>
+                            <constraint firstAttribute="trailing" secondItem="NlF-cC-dJP" secondAttribute="trailing" id="XaS-qR-hHf"/>
+                            <constraint firstItem="NlF-cC-dJP" firstAttribute="top" secondItem="zk7-zj-7Vz" secondAttribute="top" id="bgn-kE-168"/>
+                            <constraint firstAttribute="bottom" secondItem="NlF-cC-dJP" secondAttribute="bottom" id="qTP-jb-4Bk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="player" destination="NlF-cC-dJP" id="CVv-4H-jBL"/>
+                    </connections>
+                </viewController>
+                <customObject id="L8D-CF-nKV" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="293" y="440"/>
         </scene>
     </scenes>
 </document>

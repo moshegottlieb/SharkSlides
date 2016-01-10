@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+import AVFoundation
+
 
 class ShowImageContentViewController: ShowContentViewController {
 
@@ -26,5 +28,28 @@ class ShowImageContentViewController: ShowContentViewController {
         super.viewDidLoad()
         self.imageView.image = image
     }
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        didPlay(true)
+    }
     
 }
+
+class ScaledImageView : NSView{
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.layer?.backgroundColor = NSColor.clearColor().CGColor
+    }
+    var image : NSImage? {
+        didSet{
+            setNeedsDisplayInRect(self.bounds)
+        }
+    }
+    override func drawRect(dirtyRect: NSRect) {
+        if let image = self.image{
+            let imgRect = AVMakeRectWithAspectRatioInsideRect(image.size, self.bounds)
+            image.drawInRect(imgRect)
+        }
+    }
+}
+

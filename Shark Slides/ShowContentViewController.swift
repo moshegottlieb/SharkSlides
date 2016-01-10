@@ -7,24 +7,33 @@
 //
 
 import Cocoa
-import AVFoundation
-
 
 class ShowContentViewController: NSViewController {
     var url: NSURL! = nil
+    
+    var completion : ((shouldDelay:Bool) -> ())?
+    var isPaused : Bool = false
     
     static func contentController(url:NSURL!, storyBoard:NSStoryboard!) -> ShowContentViewController?{
         var type: AnyObject?
         do {
             try url.getResourceValue(&type, forKey: NSURLTypeIdentifierKey)
             if let type = type as? String {
-                if UTTypeConformsTo(type, kUTTypeImage as String){
-                    let content = storyBoard.instantiateControllerWithIdentifier("ShowImageContentViewController") as! ShowContentViewController
+                var identifier : String?
+                if UTTypeConformsTo(type, kUTTypeAudiovisualContent as String){
+                    identifier = "ShowVideoContentViewController"
+                } else if UTTypeConformsTo(type, kUTTypeImage as String){
+                    identifier = "ShowImageContentViewController"
+                }
+                if let identifier = identifier{
+                    let content = storyBoard.instantiateControllerWithIdentifier(identifier) as! ShowContentViewController
+                    content.url = url
                     if content.loadContent(url){
                         return content;
                     } else {
                         return nil
                     }
+                    
                 }
             }
             
@@ -34,8 +43,19 @@ class ShowContentViewController: NSViewController {
         return nil
     }
     
+    func pause(){
+        isPaused = true
+    }
+    func resume(){
+        isPaused = false
+    }
+    
     func loadContent(url: NSURL!) -> Bool{
         return false
+    }
+    
+    func stop(){
+        
     }
     
     override func viewDidLoad() {
@@ -44,44 +64,11 @@ class ShowContentViewController: NSViewController {
         // Do view setup here.
     }
     
+    func didPlay(shouldDelay:Bool){
+        if let completion = self.completion{
+            completion(shouldDelay: shouldDelay)
+        }
+    }
+    
 }
 
-
-class ScaledImageView : NSView{
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        self.layer?.backgroundColor = NSColor.clearColor().CGColor
-    }
-    var image : NSImage? {
-        didSet{
-            setNeedsDisplayInRect(self.bounds)
-        }
-    }
-    override func drawRect(dirtyRect: NSRect) {
-        if let image = self.image{
-            let imgRect = AVMakeRectWithAspectRatioInsideRect(image.size, self.bounds)
-            image.drawInRect(imgRect)
-        }
-    }
-}
-
-class KeyCaptureView : NSImageView {
-    @IBOutlet weak var viewController:NSViewController!{
-        didSet{
-            let controllerNextResponder:NSResponder? = viewController.nextResponder
-            super.nextResponder = controllerNextResponder
-            viewController.nextResponder = nil
-            let ownNextResponder : NSResponder? = nextResponder
-            super.nextResponder = viewController
-            viewController.nextResponder = ownNextResponder
-        }
-    }
-    override var nextResponder:NSResponder?{
-        didSet{
-            
-        }
-    }
-    override var acceptsFirstResponder : Bool{
-        return true
-    }
-}

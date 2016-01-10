@@ -20,6 +20,7 @@
 		9A8D058A1C38FE8600B55030 /* ShowImageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D05891C38FE8600B55030 /* ShowImageContentViewController.swift */; };
 		9A8D058E1C3905B600B55030 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D058D1C3905B600B55030 /* Transition.swift */; };
 		9A8D05901C390C7000B55030 /* FadeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D058F1C390C7000B55030 /* FadeTransition.swift */; };
+		9A8D05921C3AA63D00B55030 /* ShowVideoContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D05911C3AA63D00B55030 /* ShowVideoContentViewController.swift */; };
 		9A8FEC141C32726200F457E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A8FEC131C32726200F457E0 /* Localizable.strings */; };
 		9A8FEC161C327A6E00F457E0 /* NSURL+Sandbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8FEC151C327A6E00F457E0 /* NSURL+Sandbox.swift */; };
 		9A8FEC1C1C32CD4300F457E0 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8FEC1B1C32CD4300F457E0 /* Timer.swift */; };
@@ -64,6 +65,7 @@
 		9A8D05891C38FE8600B55030 /* ShowImageContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowImageContentViewController.swift; sourceTree = "<group>"; };
 		9A8D058D1C3905B600B55030 /* Transition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		9A8D058F1C390C7000B55030 /* FadeTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FadeTransition.swift; sourceTree = "<group>"; };
+		9A8D05911C3AA63D00B55030 /* ShowVideoContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowVideoContentViewController.swift; sourceTree = "<group>"; };
 		9A8FEC131C32726200F457E0 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		9A8FEC151C327A6E00F457E0 /* NSURL+Sandbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Sandbox.swift"; sourceTree = "<group>"; };
 		9A8FEC1B1C32CD4300F457E0 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				9A8D05891C38FE8600B55030 /* ShowImageContentViewController.swift */,
 				9A8D058D1C3905B600B55030 /* Transition.swift */,
 				9A8D058F1C390C7000B55030 /* FadeTransition.swift */,
+				9A8D05911C3AA63D00B55030 /* ShowVideoContentViewController.swift */,
 			);
 			path = "Shark Slides";
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 			files = (
 				9A788A1D1C302ADF00ADF0EC /* SourceSelectViewController.swift in Sources */,
 				9A8FEC161C327A6E00F457E0 /* NSURL+Sandbox.swift in Sources */,
+				9A8D05921C3AA63D00B55030 /* ShowVideoContentViewController.swift in Sources */,
 				9A80774A1C060597002432D4 /* LoadingController.swift in Sources */,
 				9A8D058A1C38FE8600B55030 /* ShowImageContentViewController.swift in Sources */,
 				9A36507F1C30125D00326A9C /* MainViewController.swift in Sources */,

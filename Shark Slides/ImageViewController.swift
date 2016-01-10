@@ -11,25 +11,61 @@ import MediaLibrary
 
 
 
-class ImageViewController: NSViewController {
+class ImageViewController: NSViewController, NSWindowDelegate {
 
+    @IBOutlet weak var messageView: NSView!
+    @IBOutlet weak var message: NSTextField!
     var media : MLMediaGroup?
     var index : Int = 0
     var isObservingMedia : Bool = false
     var playCount : Int = 0
-    var isPaused : Bool = true {
+    var cursor: NSCursor?
+    var isUserPaused : Bool = false {
+        didSet {
+            if isUserPaused{
+                displayedController?.pause()
+            } else {
+                displayedController?.resume()
+            }
+        }
+    }
+    var pausedRef : UInt = 0
+    var isPaused : Bool{
+        get{
+            return pausedRef > 0
+        }
+        set{
+            if newValue{
+                ++pausedRef
+            } else {
+                if pausedRef > 0{
+                    --pausedRef
+                }
+            }
+            if pausedRef == 0{
+                autoAdvance = true
+            } else if timer != nil{
+                autoAdvance = false
+            }
+        }
+    }
+    var isContentPlaying : Bool = false
+    
+    
+    var autoAdvance : Bool = false{
         didSet{
-            if !isPaused{
+            if autoAdvance{
                 timer = Timer(fire: { () -> () in
                     self.playNext()
                     }, autoRepeat: true, interval: interval)
                 timer?.start()
-            } else {
+            } else{
                 timer?.stop()
                 timer = nil
             }
         }
     }
+    
     var objects : Array<MLMediaObject>?
     var autoRepeat : Bool {
         return NSUserDefaults.standardUserDefaults().boolForKey("repeat")
@@ -43,12 +79,16 @@ class ImageViewController: NSViewController {
         return NSUserDefaults.standardUserDefaults().boolForKey("shuffle")
     }
     var timer: Timer?
-    var displayedController : NSViewController?
+    var displayedController : ShowContentViewController?
     
     @IBOutlet weak var loading: NSProgressIndicator!
     @IBOutlet weak var captureWindow: KeyCaptureView!
     @IBOutlet weak var container: NSView!
 
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         mediaLoaded(true)
     }
@@ -65,6 +105,9 @@ class ImageViewController: NSViewController {
     }
     
     private func playNext(){
+        if isContentPlaying{
+            return
+        }
         if let objects = objects{
             if objects.count == 0{
                 finish()
@@ -96,27 +139,19 @@ class ImageViewController: NSViewController {
                     didPlay = true
                     ++playCount
                     Transition.defaultTransition()?.transtionFrom(self.displayedController, toView: content, parent: self, completion: { () -> () in
+                        
                     })
                     displayedController = content
-                    
                 }
-                /*
-                var type: AnyObject?
-                do {
-                    try url.getResourceValue(&type, forKey: NSURLTypeIdentifierKey)
-                    if let type = type as? String {
-                        if UTTypeConformsTo(type, kUTTypeImage as String) || UTTypeConformsTo(type, kUTTypeImage as String){
-                            if let image = NSImage(contentsOfURL: url){
-                                imageView.image = image
-                                didPlay = true
-                                ++playCount
-                            }
-                        }
+                isPaused = true
+                isContentPlaying = true
+                content?.completion = { (shouldDelay:Bool) -> () in
+                    self.isContentPlaying = false
+                    self.isPaused = false
+                    if !shouldDelay && !self.isPaused{
+                        self.playNext()
                     }
-
-                } catch {
-                    // nothing
-                }*/
+                }
                 url.stopAccessingSecurityScopedResource()
             }
             
@@ -150,9 +185,7 @@ class ImageViewController: NSViewController {
         self.view.layer?.backgroundColor = NSColor.blackColor().CGColor
         view.window?.toggleFullScreen(nil)
     }
-    override func viewWillDisappear() {
-        super.viewWillDisappear()
-    }
+    
     override func viewDidDisappear() {
         super.viewDidDisappear()
         self.view.window?.close()
@@ -175,22 +208,27 @@ class ImageViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        messageView.wantsLayer = true
+        messageView.layer?.backgroundColor = NSColor.blackColor().colorWithAlphaComponent(0.6).CGColor
+        messageView.layer?.cornerRadius = 16
+        messageView.layer?.masksToBounds = true
+        message.wantsLayer = true
+        message.layer?.masksToBounds = true
+        message.layer?.backgroundColor = NSColor.clearColor().CGColor
+        message.layer?.zPosition = 2000
         self.container.hidden = true
         self.container.layer?.backgroundColor = NSColor.clearColor().CGColor
         self.captureWindow.layer?.backgroundColor = NSColor.clearColor().CGColor
+        let img = NSImage(size: NSSize(width: 1, height: 1))
+        self.cursor = NSCursor(image: img, hotSpot: NSPoint(x: 0, y: 0))
+    }
+    
+    override func cursorUpdate(event: NSEvent) {
+        self.view.addCursorRect(self.view.bounds, cursor: cursor!)
     }
     
     override func mouseUp(theEvent: NSEvent) {
         
-    }
-    
-    private func togglePause(){
-        // isPaused ^= true // If swift was a real language
-        if isPaused == true{
-            isPaused = false
-        } else {
-            isPaused = true
-        }
     }
     
     override func keyDown(theEvent: NSEvent) {
@@ -199,16 +237,28 @@ class ImageViewController: NSViewController {
         case 27: // Escape
            finish()
         case 32: // Space
-            togglePause()
+            if isUserPaused{
+                isUserPaused = false
+                isPaused = false
+            } else {
+                isUserPaused = true
+                isPaused = true
+            }
         case UInt16(NSLeftArrowFunctionKey):
-            isPaused = true
+            if !isUserPaused{
+                isUserPaused = true
+                isPaused = true
+            }
             index-=2
             if index<0{
                 index = 0
             }
             playNext()
         case UInt16(NSRightArrowFunctionKey):
-            isPaused = true
+            if !isUserPaused{
+                isUserPaused = true
+                isPaused = true
+            }
             playNext()
         default:
             break
@@ -238,4 +288,29 @@ extension MutableCollectionType where Index == Int {
         }
     }
 }
+
+class KeyCaptureView : NSImageView {
+    @IBOutlet weak var viewController:NSViewController!{
+        didSet{
+            let controllerNextResponder:NSResponder? = viewController.nextResponder
+            super.nextResponder = controllerNextResponder
+            viewController.nextResponder = nil
+            let ownNextResponder : NSResponder? = nextResponder
+            super.nextResponder = viewController
+            viewController.nextResponder = ownNextResponder
+        }
+    }
+    override var nextResponder:NSResponder?{
+        didSet{
+            
+        }
+    }
+    override var acceptsFirstResponder : Bool{
+        return true
+    }
+}
+
+class Banner: NSTextField {
+}
+
 
