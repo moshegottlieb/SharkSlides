@@ -7,3 +7,6 @@
 */
 
 OPEN_PANEL_GRANT_ACCESS="Your Photos library is not in it's default location, please grant access to it by selecting it and hitting Done";
+
+LOADING_PHOTOS="Connecting to Photos...";
+LOADING_SOURCE="Loading photos...";

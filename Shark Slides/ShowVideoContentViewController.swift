@@ -22,6 +22,10 @@ class ShowVideoContentViewController: ShowContentViewController {
         didPlay(false)
     }
     
+    override func isTimebased() -> Bool {
+        return true
+    }
+    
     override func pause() {
         super.pause()
         self.player.player?.pause()
@@ -46,7 +50,10 @@ class ShowVideoContentViewController: ShowContentViewController {
     override func stop() {
         super.stop()
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        self.player.player?.replaceCurrentItemWithPlayerItem(nil)
+        if (self.player.player?.currentItem != nil){
+            self.player.player?.replaceCurrentItemWithPlayerItem(nil)
+            finishedPlayback()
+        }
     }
     
     deinit{

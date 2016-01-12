@@ -10,9 +10,10 @@
     import MediaLibrary
 
     public class MediaLibrary : NSObject{
-        var library : MLMediaLibrary!
         var photosSource : MLMediaSource!
-        var completion : (() -> ())?
+        private weak var group : MLMediaGroup?
+        private var library : MLMediaLibrary!
+        private var completion : (() -> ())?
         
         private func loadSources(){
             if let mediaSources = library.mediaSources {
@@ -27,10 +28,23 @@
             let options : [String : AnyObject] = [/*MLMediaLoadSourceTypesKey : MLMediaSourceType.Image.rawValue, */MLMediaLoadIncludeSourcesKey : [MLMediaSourcePhotosIdentifier]]
             library = MLMediaLibrary(options: options)
             library.addObserver(self, forKeyPath: "mediaSources", options: NSKeyValueObservingOptions.New, context: nil)
-            library.mediaSources; // trigger load, status will be reported back in observeValueForKeyPath
+            library.mediaSources // trigger load, status will be reported back in observeValueForKeyPath
+        }
+        
+        public func loadGroup(group:MLMediaGroup!,completion:()->()) -> Bool{
+            self.completion = completion
+            self.group = group
+            if group.mediaObjects == nil{
+                group.addObserver(self, forKeyPath: "mediaObjects", options: NSKeyValueObservingOptions.New, context: nil)
+                return false
+            } else {
+                completion()
+                return true
+            }
         }
         
         public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+            var found : Bool = false
             if let sobject = object{
                 // mediaSources?
                 if sobject.isKindOfClass(MLMediaLibrary){
@@ -40,10 +54,17 @@
                     if sobject as! MLMediaSource == photosSource{
                         // root group loaded
                         photosSource.removeObserver(self, forKeyPath: "rootMediaGroup")
-                        if let scompletion = completion{
-                            scompletion()
-                        }
+                        found = true
                     }
+                } else if keyPath == "mediaObjects"{
+                    group?.removeObserver(self, forKeyPath: "mediaObjects")
+                    found = true
+                }
+            }
+            if found{
+                if let scompletion = completion{
+                    scompletion()
+                    self.completion = nil
                 }
             }
         }

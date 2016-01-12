@@ -12,13 +12,19 @@ import MediaLibrary
 
 class LoadingController: NSViewController {
     
+    @IBOutlet weak var message: NSTextField!
     @IBOutlet weak var progress: NSProgressIndicator!
     
-    let mediaLibrary : MediaLibrary = MediaLibrary()
     var completion : (() -> ())?
+    
+    func setMessageText(text:String!){
+        message.cell?.stringValue = text
+        message.hidden = (text as NSString).length == 0
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        message.hidden = true
         progress.startAnimation(nil)
     }
     
@@ -29,11 +35,8 @@ class LoadingController: NSViewController {
     
     override func viewDidAppear() {
         super.viewDidAppear()
-        mediaLibrary.load { () -> () in
-            self.dismissViewController(self)
-            if let completion = self.completion{
-                completion()
-            }
+        if let completion = completion{
+            completion()
         }
     }
 

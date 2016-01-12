@@ -43,6 +43,10 @@ class ShowContentViewController: NSViewController {
         return nil
     }
     
+    func isTimebased() -> Bool {
+        return false
+    }
+    
     func pause(){
         isPaused = true
     }

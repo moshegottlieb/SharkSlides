@@ -8,40 +8,40 @@
 
 import Foundation
 
-
-class Timer{
+class Timer {
     private let fire : (() -> ())!
-    private let autoRepeat : Bool
-    private let interval : NSTimeInterval
-    private var running: Bool = false
+    private weak var timer : NSTimer?
+    private var autoRepeat : Bool
+    private var interval : NSTimeInterval
     private var sself : Timer?
     required init(fire:(() -> ())! , autoRepeat:Bool, interval:NSTimeInterval){
-        self.fire = fire
         self.autoRepeat = autoRepeat
         self.interval = interval
+        self.fire = fire
     }
     
-    private func schedule(){
-        weak var sself = self.sself
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(interval * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue(), { () -> Void in
-            if let sself = sself{
-                sself.fire()
-                if sself.autoRepeat{
-                    sself.schedule()
-                }
-            }
-        })
+    @objc func fired(){
+        fire()
+        if !autoRepeat{
+            stop() // clear sself, mostly
+        }
     }
     
     func stop(){
-        running = false
+        if let timer = self.timer{
+            timer.invalidate()
+        }
         sself = nil
     }
     func start(){
-        assert(!running)
-        running = true
+        self.timer?.invalidate()
+        let timer : NSTimer! = NSTimer(timeInterval: interval, target: self, selector: Selector("fired"), userInfo: nil, repeats: autoRepeat)
+        self.timer = timer
+        NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+        assert(timer != nil)
         sself = self
-        schedule()
+    }
+    deinit{
+        stop()
     }
 }
