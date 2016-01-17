@@ -42,10 +42,6 @@ class ShowVideoContentViewController: ShowContentViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("finishedPlayback"), name: AVPlayerItemDidPlayToEndTimeNotification, object: self.player.player?.currentItem)
         self.player.player?.play()
     }
-    override func viewWillDisappear() {
-        super.viewWillDisappear()
-        stop()
-    }
     
     override func stop() {
         super.stop()

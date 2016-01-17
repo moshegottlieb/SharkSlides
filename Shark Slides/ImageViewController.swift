@@ -10,53 +10,24 @@ import Cocoa
 import MediaLibrary
 
 
-
 class ImageViewController: NSViewController, NSWindowDelegate {
     var index : Int = 0
     var playCount : Int = 0
     var cursor: NSCursor?
     var message : NSImageView?
-    var isUserPaused : Bool = false {
+    var isPaused : Bool = false {
         didSet {
-            if isUserPaused{
+            if isPaused{
+                timer?.stop()
                 displayedController?.pause()
             } else {
+                self.schedule()
                 displayedController?.resume()
             }
         }
     }
-    var pausedRef : UInt = 0
-    var isPaused : Bool{
-        get{
-            return pausedRef > 0
-        }
-        set{
-            if newValue{
-                ++pausedRef
-            } else {
-                if pausedRef > 0{
-                    --pausedRef
-                }
-            }
-            if pausedRef == 0{
-                autoAdvance = true
-            } else if timer != nil{
-                autoAdvance = false
-            }
-        }
-    }
+    var timer:Timer? = nil
     var isContentPlaying : Bool = false
-    
-    
-    var autoAdvance : Bool = false{
-        didSet{
-            if autoAdvance{
-                timer?.start()
-            } else{
-                timer?.stop()
-            }
-        }
-    }
     
     var objects : Array<NSURL>?
     var autoRepeat : Bool {
@@ -70,7 +41,6 @@ class ImageViewController: NSViewController, NSWindowDelegate {
     var shuffle : Bool {
         return NSUserDefaults.standardUserDefaults().boolForKey("shuffle")
     }
-    var timer: Timer?
     var displayedController : ShowContentViewController?
     var messageTimer : Timer?
     
@@ -79,20 +49,29 @@ class ImageViewController: NSViewController, NSWindowDelegate {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    private func schedule(){
+        timer?.stop()
         timer = Timer(fire: { () -> () in
             self.playNext()
-            }, autoRepeat: true, interval: interval)
+            }, autoRepeat: false, interval: interval)
+        timer?.start()
     }
     
     private func finish(){
         isPaused = true
+        displayedController?.stop()
         if let completion = self.completion{
             completion(vc:self)
         }
     }
     
     @objc private func playNext(){
-        if isContentPlaying{
+        playNext(false)
+    }
+    private func playNext(noCheck: Bool){
+        if !noCheck && (isContentPlaying || isPaused){
             return
         }
         if let objects = objects{
@@ -129,12 +108,12 @@ class ImageViewController: NSViewController, NSWindowDelegate {
                     
                 })
                 displayedController = content
-                isPaused = true
                 isContentPlaying = true
                 content?.completion = { (shouldDelay:Bool) -> () in
                     self.isContentPlaying = false
-                    self.isPaused = false
-                    if !shouldDelay && !self.isPaused{
+                    if shouldDelay {
+                        self.schedule()
+                    } else {
                         self.playNext()
                     }
                 }
@@ -229,12 +208,18 @@ class ImageViewController: NSViewController, NSWindowDelegate {
         case 27: // Escape
            finish()
         case 32: // Space
-            if isUserPaused{
-                isUserPaused = false
+            if isPaused{
                 isPaused = false
                 showMessage("play")
+                if let displayedController = displayedController{
+                    if !displayedController.isTimebased(){
+                        playNext(true)
+                    }
+                } else {
+                    playNext(true)
+                }
+                
             } else {
-                isUserPaused = true
                 isPaused = true
                 showMessage("pause")
             }
@@ -254,12 +239,7 @@ class ImageViewController: NSViewController, NSWindowDelegate {
             index = 0
         }
         isPaused = true
-        isPaused = false
-        if isContentPlaying && displayedController!.isTimebased(){
-            displayedController?.stop()
-        } else {
-            playNext()
-        }
+        playNext(true)
     }
 }
 
