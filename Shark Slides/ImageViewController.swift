@@ -255,7 +255,10 @@ class ImageViewController: NSViewController, NSWindowDelegate {
         if index<0{
             index = 0
         }
-        isPaused = true
+        if !isPaused{
+            isPaused = true
+            isPaused = false
+        }
         playNext(true)
     }
 }

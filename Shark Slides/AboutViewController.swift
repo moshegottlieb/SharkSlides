@@ -28,3 +28,7 @@ class AboutViewController: NSViewController {
         self.view.window?.orderOut(self)
     }
 }
+
+protocol About{
+    func about()
+}

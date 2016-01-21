@@ -8,12 +8,18 @@
 
 import Cocoa
 
-class PreferencesWindowController: NSWindowController {
+class PreferencesWindowController: NSWindowController,About {
 
-    override func windowDidLoad() {
-        super.windowDidLoad()
-        self.performSelector(Selector("setup"), withObject: nil, afterDelay: 0)
+    @IBOutlet weak var infoButton: NSButton!
+    
+    override var window : NSWindow?{
+        didSet{
+            if window != nil {
+                performSelector(Selector("setup"), withObject: nil, afterDelay: 0, inModes: [NSRunLoopCommonModes])
+            }
+        }
     }
+    
     @objc func setup(){
         self.window?.toolbar?.selectedItemIdentifier = self.window?.toolbar?.items.first?.itemIdentifier
         slideshow(self)
@@ -25,7 +31,7 @@ class PreferencesWindowController: NSWindowController {
     @IBAction func video(sender: AnyObject) {
         self.contentViewController?.performSegueWithIdentifier("Video", sender: sender)
     }
-    @IBAction func about(sender: AnyObject) {
-        
+    func about(){
+        infoButton.target?.performSelector(infoButton.action, withObject: self)
     }
 }

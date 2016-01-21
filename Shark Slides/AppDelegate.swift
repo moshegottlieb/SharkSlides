@@ -20,8 +20,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
     
-
     @IBAction func help(sender: AnyObject) {
         NSWorkspace.sharedWorkspace().openURL(NSURL(string: "http://sharkfood.com/content/Apps/content/SharkSlides")!)
+    }
+    
+    func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool {
+        return true
     }
 }

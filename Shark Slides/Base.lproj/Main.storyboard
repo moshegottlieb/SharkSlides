@@ -17,16 +17,16 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Shark Slides" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
-                                        <menuItem title="About Shark Slides" id="5kV-Vb-QxS">
+                                        <menuItem title="About Shark Slides" tag="315" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <segue destination="hUi-f0-Iyd" kind="show" id="d12-ry-Dph"/>
+                                                <segue destination="SJk-QC-poA" kind="custom" customClass="PopoverSegue" customModule="Shark_Slides" customModuleProvider="target" id="iL1-Lu-0mF"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
                                         <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
                                             <connections>
-                                                <segue destination="GG3-Lv-D1m" kind="show" id="RMI-V4-1Vn"/>
+                                                <segue destination="GG3-Lv-D1m" kind="custom" customClass="PreferencesSegue" customModule="Shark_Slides" customModuleProvider="target" id="yQI-f0-Znf"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
@@ -107,7 +107,7 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Shark_Slides" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1329.5" y="-564"/>
+            <point key="canvasLocation" x="681.5" y="499"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="iq9-Ns-SuT">
@@ -126,7 +126,7 @@
                 </windowController>
                 <customObject id="05D-7V-Uau" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-117.5" y="-16.5"/>
+            <point key="canvasLocation" x="-67.5" y="-90.5"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="Sjw-Rg-Rxo">
@@ -278,7 +278,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <segue destination="GG3-Lv-D1m" kind="show" id="EDS-L7-kRt"/>
+                                    <segue destination="GG3-Lv-D1m" kind="modal" id="fcq-7D-XYo"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -326,7 +326,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="infoButton" destination="4J0-aA-DkC" id="LDi-fp-Y1F"/>
                         <outlet property="pathTitle" destination="1Y9-im-44e" id="E2b-es-UTJ"/>
+                        <outlet property="preferencesButton" destination="JtA-jz-gMc" id="6Ss-Ae-17H"/>
                         <outlet property="sourceIcon" destination="0Zs-RQ-4Rr" id="4dF-6i-bab"/>
                         <outlet property="startButton" destination="pFe-qQ-4JC" id="DIx-rJ-kdU"/>
                     </connections>
@@ -557,13 +559,13 @@ Gw
         <!--Window Controller-->
         <scene sceneID="bnp-LR-e3Y">
             <objects>
-                <windowController showSeguePresentationStyle="single" id="GG3-Lv-D1m" customClass="PreferencesWindowController" customModule="Shark_Slides" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="ngb-kh-FYy">
+                <windowController storyboardIdentifier="PreferencesController" showSeguePresentationStyle="single" id="GG3-Lv-D1m" customClass="PreferencesWindowController" customModule="Shark_Slides" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="ngb-kh-FYy">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="425" y="461" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
-                        <toolbar key="toolbar" implicitIdentifier="71398F04-D054-4523-8EDB-4D9DB2201C56" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="5Vu-qM-QfN">
+                        <toolbar key="toolbar" implicitIdentifier="71398F04-D054-4523-8EDB-4D9DB2201C56" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="5Vu-qM-QfN">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="S8x-gB-NlI"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Z7X-Li-zuD"/>
@@ -577,10 +579,20 @@ Gw
                                         <action selector="slideshow:" target="GG3-Lv-D1m" id="Mx6-pP-hBp"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="8031C240-7100-4256-9297-1FE490880C41" label="About" paletteLabel="About" tag="-1" image="info" autovalidates="NO" id="iem-qA-iy0">
+                                <toolbarItem implicitItemIdentifier="72EF6C5A-6AE6-43B5-8F17-D69BC6426F22" label="About" paletteLabel="About" image="info" id="GYJ-Ve-xaH">
+                                    <nil key="toolTip"/>
+                                    <size key="minSize" width="32" height="32"/>
+                                    <size key="maxSize" width="48" height="48"/>
+                                    <button key="view" id="1md-Qj-wQK">
+                                        <rect key="frame" x="4" y="14" width="32" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="info" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="bwQ-Fn-Eib">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
                                     <connections>
-                                        <action selector="about:" target="GG3-Lv-D1m" id="8hN-jX-0Rd"/>
-                                        <segue destination="hUi-f0-Iyd" kind="modal" id="xPP-qj-7gi"/>
+                                        <segue destination="SJk-QC-poA" kind="popover" popoverAnchorView="GYJ-Ve-xaH" popoverBehavior="t" preferredEdge="maxY" id="y6A-RP-Dko"/>
                                     </connections>
                                 </toolbarItem>
                             </allowedToolbarItems>
@@ -588,17 +600,18 @@ Gw
                                 <toolbarItem reference="JMz-gR-2Oi"/>
                                 <toolbarItem reference="2ex-aw-wxL"/>
                                 <toolbarItem reference="Z7X-Li-zuD"/>
-                                <toolbarItem reference="iem-qA-iy0"/>
+                                <toolbarItem reference="GYJ-Ve-xaH"/>
                             </defaultToolbarItems>
                         </toolbar>
                     </window>
                     <connections>
+                        <outlet property="infoButton" destination="1md-Qj-wQK" id="FeN-TO-EnH"/>
                         <segue destination="wwi-G3-C04" kind="relationship" relationship="window.shadowedContentViewController" id="XyY-Fk-Dg6"/>
                     </connections>
                 </windowController>
                 <customObject id="gs8-OO-7ly" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="572" y="938"/>
+            <point key="canvasLocation" x="215" y="910"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="6q2-Ks-gab">
@@ -711,7 +724,7 @@ Gw
                 </viewController>
                 <customObject id="gdv-ke-G4m" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="872" y="1581"/>
+            <point key="canvasLocation" x="858" y="902"/>
         </scene>
         <!--Video-->
         <scene sceneID="Zfr-Tl-CtS">
@@ -1188,6 +1201,17 @@ Gw
                     </connections>
                 </viewController>
                 <customObject id="L8D-CF-nKV" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="EQ7-9R-Yan">
+                    <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="130-jK-uxy"/>
+                        <constraint firstAttribute="height" constant="24" id="sR9-ab-Tcf"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="info" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Who-e4-ueu">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
             </objects>
             <point key="canvasLocation" x="293" y="440"/>
         </scene>
@@ -1203,8 +1227,7 @@ Gw
         <image name="warning" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="EDS-L7-kRt"/>
+        <segue reference="yQI-f0-Znf"/>
         <segue reference="SOE-bK-JJm"/>
-        <segue reference="d12-ry-Dph"/>
     </inferredMetricsTieBreakers>
 </document>

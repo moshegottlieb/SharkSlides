@@ -17,13 +17,23 @@ class MainWindow : NSWindow{
     }
 }
 
-class MainViewController: NSViewController {
+class MainViewController: NSViewController , About, Preferences{
 
     private var mediaLibrary : MediaLibrary?
     
     private func setSource(name:String!,icon:NSImage!){
         sourceIcon.image = icon
         pathTitle.cell?.stringValue = name
+    }
+    
+    @IBOutlet weak var infoButton: NSButton!
+    @IBOutlet weak var preferencesButton: NSButton!
+    
+    func about(){
+        infoButton.target?.performSelector(infoButton.action, withObject: self)
+    }
+    func preferences() {
+        preferencesButton.target?.performSelector(preferencesButton.action, withObject: self)
     }
     
     var source : MLMediaGroup? {
@@ -45,7 +55,8 @@ class MainViewController: NSViewController {
                     }
                     self.urls = objects
                     if objects.count > 0{
-                        self.setSource(source.name!,icon: NSImage(named: "photos"))
+                        let format = NSLocalizedString("FILE_COUNT", comment: "")
+                        self.setSource(String(format:format , arguments: [objects.count as Int]), icon: NSImage(named: "photos"))
                     }
                 }){
                     self.presentViewControllerAsSheet(loading!)

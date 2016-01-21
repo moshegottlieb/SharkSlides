@@ -44,6 +44,9 @@ class ShowVideoContentViewController: ShowContentViewController {
         if NSUserDefaults.standardUserDefaults().boolForKey("video.showControls"){
             player.controlsStyle = AVPlayerViewControlsStyle.Default
         }
+        if player.player?.currentItem?.status == .Failed{
+            stop()
+        }
     }
     
     override func stop() {

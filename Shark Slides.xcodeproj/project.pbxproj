@@ -14,6 +14,8 @@
 		9A2114B71C4CF7B6000A0020 /* VideoPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2114B61C4CF7B6000A0020 /* VideoPreferencesViewController.swift */; };
 		9A36507B1C2FF82100326A9C /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36507A1C2FF82100326A9C /* MediaLibrary.swift */; };
 		9A36507F1C30125D00326A9C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36507E1C30125D00326A9C /* MainViewController.swift */; };
+		9A6F0F0A1C517A02005F4B34 /* PopoverSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6F0F091C517A02005F4B34 /* PopoverSegue.swift */; };
+		9A6F0F0E1C51920D005F4B34 /* PreferencesSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6F0F0D1C51920D005F4B34 /* PreferencesSegue.swift */; };
 		9A788A1D1C302ADF00ADF0EC /* SourceSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A788A1B1C302ADF00ADF0EC /* SourceSelectViewController.swift */; };
 		9A8077481C060597002432D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8077471C060597002432D4 /* AppDelegate.swift */; };
 		9A80774A1C060597002432D4 /* LoadingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8077491C060597002432D4 /* LoadingController.swift */; };
@@ -58,6 +60,8 @@
 		9A2114B61C4CF7B6000A0020 /* VideoPreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPreferencesViewController.swift; sourceTree = "<group>"; };
 		9A36507A1C2FF82100326A9C /* MediaLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		9A36507E1C30125D00326A9C /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		9A6F0F091C517A02005F4B34 /* PopoverSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverSegue.swift; sourceTree = "<group>"; };
+		9A6F0F0D1C51920D005F4B34 /* PreferencesSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesSegue.swift; sourceTree = "<group>"; };
 		9A788A1B1C302ADF00ADF0EC /* SourceSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceSelectViewController.swift; sourceTree = "<group>"; };
 		9A8077441C060597002432D4 /* Shark Slides.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shark Slides.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A8077471C060597002432D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +160,8 @@
 				9A2114B21C4CF3B6000A0020 /* SlideshowPreferencesViewController.swift */,
 				9A2114B41C4CF549000A0020 /* FadeInSegue.swift */,
 				9A2114B61C4CF7B6000A0020 /* VideoPreferencesViewController.swift */,
+				9A6F0F091C517A02005F4B34 /* PopoverSegue.swift */,
+				9A6F0F0D1C51920D005F4B34 /* PreferencesSegue.swift */,
 			);
 			path = "Shark Slides";
 			sourceTree = "<group>";
@@ -332,9 +338,11 @@
 				9A9B43A21C3176F3001A033A /* ImageViewController.swift in Sources */,
 				9A8D05881C38FD0600B55030 /* ShowContentViewController.swift in Sources */,
 				9AFC00491C4CBF4C00C17B86 /* AboutViewController.swift in Sources */,
+				9A6F0F0E1C51920D005F4B34 /* PreferencesSegue.swift in Sources */,
 				9A36507B1C2FF82100326A9C /* MediaLibrary.swift in Sources */,
 				9A2114B31C4CF3B6000A0020 /* SlideshowPreferencesViewController.swift in Sources */,
 				9A8D05901C390C7000B55030 /* FadeTransition.swift in Sources */,
+				9A6F0F0A1C517A02005F4B34 /* PopoverSegue.swift in Sources */,
 				9A2114AF1C4CD9E5000A0020 /* PreferencesWindowController.swift in Sources */,
 				9A8FEC1C1C32CD4300F457E0 /* Timer.swift in Sources */,
 			);

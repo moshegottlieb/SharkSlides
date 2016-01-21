@@ -22,3 +22,4 @@ class PreferencesViewController: NSViewController {
         super.viewDidAppear()
     }
 }
+
