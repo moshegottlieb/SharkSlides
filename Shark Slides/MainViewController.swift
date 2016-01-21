@@ -20,26 +20,73 @@ class MainWindow : NSWindow{
 class MainViewController: NSViewController {
 
     private var mediaLibrary : MediaLibrary?
-    let transitions = ["Fade"]
+    
+    private func setSource(name:String!,icon:NSImage!){
+        sourceIcon.image = icon
+        pathTitle.cell?.stringValue = name
+    }
     
     var source : MLMediaGroup? {
         didSet{
-            if let name = source?.name{
-                sourceButton.cell?.title = name
+            if let source = source{
+                var loading : LoadingController?
+                loading = (storyboard?.instantiateControllerWithIdentifier("LoadingController"))! as? LoadingController
+                loading?.completion = {
+                    loading?.setMessageText(NSLocalizedString("LOADING_SOURCE", comment: "Loading photos"))
+                }
+                if !self.mediaLibrary!.loadGroup(source, completion: { () -> () in
+                    loading?.dismissController(self)
+                    var objects = Array<NSURL>()
+                    objects.reserveCapacity((self.source?.mediaObjects?.count)!)
+                    for object in source.mediaObjects!{
+                        if let url = object.URL{
+                            objects.append(url)
+                        }
+                    }
+                    self.urls = objects
+                    if objects.count > 0{
+                        self.setSource(source.name!,icon: NSImage(named: "photos"))
+                    }
+                }){
+                    self.presentViewControllerAsSheet(loading!)
+                }
             }
-            startButton.enabled = source != nil
         }
     }
+    
+    var urls : Array<NSURL>? = nil {
+        didSet {
+            startButton.enabled = false
+            if urls?.count > 0{
+                startButton.enabled = true
+            } else {
+                let icon = NSImage(named:"warning")
+                setSource(NSLocalizedString("NO_SELECTION", comment: "Nothing selected"), icon: icon)
+                if urls != nil{
+                    let alert = NSAlert()
+                    alert.messageText = NSLocalizedString("ALERT_NO_URLS", comment: "No playable items found")
+                    alert.informativeText = NSLocalizedString("ALERT_NO_URL_INFO", comment: "")
+                    alert.alertStyle = .WarningAlertStyle
+                    alert.beginSheetModalForWindow(self.view.window!, completionHandler: nil)
+                    alert.icon = icon
+                    
+                }
+            }
+            
+        }
+    }
+    
     private var accessURL: NSURL?
     
-    @IBOutlet weak var sourceButton: NSButton!
     @IBOutlet weak var startButton: NSButton!
+    @IBOutlet weak var pathTitle: NSTextField!
+    @IBOutlet weak var sourceIcon: NSImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.urls = nil
     }
-    override func viewWillAppear() {
-        super.viewWillAppear()
+    @IBAction func selectSource(sender: AnyObject) {
         if mediaLibrary == nil{
             mediaLibrary = MediaLibrary()
             var loading : LoadingController
@@ -48,84 +95,78 @@ class MainViewController: NSViewController {
                 loading.setMessageText(NSLocalizedString("LOADING_PHOTOS", comment: "Loading photos"))
                 self.mediaLibrary!.load { () -> () in
                     loading.dismissController(self)
-                    self.source = self.mediaLibrary?.photosSource.rootMediaGroup
+                    self.selectSource(sender)
                 }
             }
             self.presentViewControllerAsSheet(loading)
-            
+        } else {
+
+            let select = storyboard?.instantiateControllerWithIdentifier("SourceSelectViewController") as! SourceSelectViewController
+            select.rootGroup = mediaLibrary?.photosSource.rootMediaGroup
+            select.selection = source
+            select.completion = { (selection:MLMediaGroup!) in
+                self.source = selection
+            }
+            presentViewControllerAsSheet(select)
         }
     }
-    @IBAction func selectSource(sender: AnyObject) {
-        let select = storyboard?.instantiateControllerWithIdentifier("SourceSelectViewController") as! SourceSelectViewController
-        select.rootGroup = mediaLibrary?.photosSource.rootMediaGroup
-        select.selection = source
-        select.completion = { (selection:MLMediaGroup!) in
-            self.source = selection
+    
+    
+    private func loadUrls(inout result:Array<NSURL>!, urls: Array<NSURL>!){
+        for url in urls{
+            var type: AnyObject?
+            do {
+                try url.getResourceValue(&type, forKey: NSURLTypeIdentifierKey)
+                if let type = type as? String {
+                    if UTTypeConformsTo(type, kUTTypeAudiovisualContent as String) || UTTypeConformsTo(type, kUTTypeImage as String){
+                        result.append(url)
+                    } else if UTTypeConformsTo(type, kUTTypeFolder as String){
+                        var contents : Array<NSURL>!
+                        var options : NSDirectoryEnumerationOptions = .SkipsSubdirectoryDescendants
+                        options = options.union(.SkipsPackageDescendants)
+                        options = options.union(.SkipsHiddenFiles)
+                        contents = try NSFileManager.defaultManager().contentsOfDirectoryAtURL(url, includingPropertiesForKeys: nil, options:  options)
+                        loadUrls(&result, urls: contents)
+                    }
+                }
+                
+            } catch {
+                // nothing
+            }
         }
-        presentViewControllerAsSheet(select)
+    }
+    
+    @IBAction func chooseFromFinder(sender: AnyObject) {
+        let open = NSOpenPanel() as NSOpenPanel
+        open.canChooseDirectories = true
+        open.canChooseFiles = true
+        open.allowsMultipleSelection = true
+        open.message = NSLocalizedString("OPEN_FILE_MESSAGE", comment: "Choose images/videos")
+        open.allowedFileTypes = [kUTTypeAudiovisualContent as String,kUTTypeImage as String]
+        open.prompt = NSLocalizedString("OPEN_FILE_PROMPT", comment: "Choose")
+        open.beginSheetModalForWindow(view.window!) { (result:Int) -> Void in
+            if result == NSFileHandlingPanelOKButton{
+                var urls : Array<NSURL>! = Array<NSURL>()
+                self.loadUrls(&urls,urls: open.URLs)
+                self.urls = urls
+                if urls.count > 0{
+                    let format = NSLocalizedString("FILE_COUNT", comment: "")
+                    self.setSource(String(format:format , arguments: [urls.count as Int]), icon: NSImage(named:"finder"))
+                }
+            }
+        }
     }
     
     @IBAction func play(sender: NSButton?) {
-        
-        
-        
-        var loading : LoadingController?
-        if !self.mediaLibrary!.loadGroup(self.source!, completion: { () -> () in
-            loading?.dismissController(self)
-            let vc = self.storyboard?.instantiateControllerWithIdentifier("ImageViewController") as! ImageViewController
-            var objects = Array<NSURL>()
-            objects.reserveCapacity((self.source?.mediaObjects?.count)!)
-            for object in self.source!.mediaObjects!{
-                if let url = object.URL{
-                    objects.append(url)
-                }
-            }
-            vc.objects = objects
-            vc.completion = { ( vc : NSViewController!) in
-                self.view.window?.makeKeyAndOrderFront(nil)
-                self.dismissViewController(vc)
-                vc.view.window?.close()
-            }
-            vc.requestAccess = { (url: NSURL!) in
-                self.accessURL = url
-                if let url = self.accessURL{
-                    self.accessURL = nil
-                    let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-                    dispatch_after(delayTime, dispatch_get_main_queue(), { () -> Void in
-                        var path = (url.path as NSString!).stringByStandardizingPath
-                        while (path as NSString).length > 0 && !path.hasSuffix("Photos Library.photoslibrary"){
-                            path = (path as NSString).stringByDeletingLastPathComponent
-                        }
-                        let panel = NSOpenPanel()
-                        panel.canChooseFiles = true
-                        panel.allowedFileTypes = ["photoslibrary"]
-                        panel.canChooseDirectories = false
-                        panel.allowsMultipleSelection = false
-                        panel.message = NSLocalizedString("OPEN_PANEL_GRANT_ACCESS",comment:"")
-                        panel.directoryURL = NSURL(fileURLWithPath: path)
-                        panel.beginWithCompletionHandler({ (result: Int) -> Void in
-                            if result == NSFileHandlingPanelOKButton{
-                                panel.URL?.saveBookmark()
-                                self.play(nil)
-                            }
-                        })
-                        
-                    })
-                    
-                }
-                
-            }
-            self.presentViewControllerAsModalWindow(vc)
-            self.view.window?.orderOut(nil)
-        }){
-            loading = (storyboard?.instantiateControllerWithIdentifier("LoadingController"))! as? LoadingController
-            loading?.completion = {
-                loading?.setMessageText(NSLocalizedString("LOADING_SOURCE", comment: "Loading photos"))
-            }
-            self.presentViewControllerAsSheet(loading!)
+        let vc = self.storyboard?.instantiateControllerWithIdentifier("ImageViewController") as! ImageViewController
+        vc.objects = urls
+        vc.completion = { ( vc : NSViewController!) in
+            self.view.window?.makeKeyAndOrderFront(nil)
+            self.dismissViewController(vc)
+            vc.view.window?.close()
         }
-        
-        
-        
+    
+        presentViewControllerAsModalWindow(vc)
+        view.window?.orderOut(nil)
     }
 }

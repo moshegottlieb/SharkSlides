@@ -10,3 +10,15 @@ OPEN_PANEL_GRANT_ACCESS="Your Photos library is not in it's default location, pl
 
 LOADING_PHOTOS="Connecting to Photos...";
 LOADING_SOURCE="Loading photos...";
+ABOUT="%@ %@(%@)\n© Sharkfood 2016";
+
+SEC_5="5 seconds";
+SEC_10="10 seconds";
+SEC_30="30 seconds";
+
+OPEN_FILE_MESSAGE="Choose images/videos";
+OPEN_FILE_PROMPT="Choose";
+ALERT_NO_URLS="No playable items found";
+ALERT_NO_URL_INFO="Your selection did not include any playable files (images or videos)";
+NO_SELECTION="Nothing selected";
+FILE_COUNT="%d files";

@@ -36,7 +36,7 @@ class ImageViewController: NSViewController, NSWindowDelegate {
     var completion : ((vc: NSViewController!) -> ())?
     var requestAccess : ((url:NSURL!)->())?
     var interval : NSTimeInterval {
-        return NSUserDefaults.standardUserDefaults().doubleForKey("interval") + NSUserDefaults.standardUserDefaults().doubleForKey("transition.duration")
+        return NSUserDefaults.standardUserDefaults().doubleForKey("interval") + Transition.duration()
     }
     var shuffle : Bool {
         return NSUserDefaults.standardUserDefaults().boolForKey("shuffle")
@@ -204,6 +204,7 @@ class ImageViewController: NSViewController, NSWindowDelegate {
     
     override func keyDown(theEvent: NSEvent) {
         let unichar = (theEvent.characters! as NSString).characterAtIndex(0)
+        let command = (theEvent.modifierFlags.rawValue & NSEventModifierFlags.CommandKeyMask.rawValue) != 0
         switch unichar{
         case 27: // Escape
            finish()
@@ -224,9 +225,25 @@ class ImageViewController: NSViewController, NSWindowDelegate {
                 showMessage("pause")
             }
         case UInt16(NSLeftArrowFunctionKey):
+            if let displayedController = displayedController{
+                if !command && displayedController.isKindOfClass(ShowVideoContentViewController){
+                    let video : ShowVideoContentViewController! = displayedController as! ShowVideoContentViewController
+                    video.skip(NSUserDefaults.standardUserDefaults().doubleForKey("video.skipInterval")*(-1.0))
+                    break
+                }
+            }
+            
             advance(-2)
             showMessage("previous")
         case UInt16(NSRightArrowFunctionKey):
+            if let displayedController = displayedController{
+                if !command && displayedController.isKindOfClass(ShowVideoContentViewController){
+                    let video : ShowVideoContentViewController! = displayedController as! ShowVideoContentViewController
+                    video.skip(NSUserDefaults.standardUserDefaults().doubleForKey("video.skipInterval"))
+                    break
+                }
+                
+            }
             advance(0)
             showMessage("next")
         default:

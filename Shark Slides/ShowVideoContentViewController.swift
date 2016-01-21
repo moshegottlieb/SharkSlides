@@ -40,7 +40,10 @@ class ShowVideoContentViewController: ShowContentViewController {
         self.player.player = AVPlayer(URL: url)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("finishedPlayback"), name: AVPlayerItemFailedToPlayToEndTimeNotification, object: self.player.player?.currentItem)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("finishedPlayback"), name: AVPlayerItemDidPlayToEndTimeNotification, object: self.player.player?.currentItem)
-        self.player.player?.play()
+        player.player?.play()
+        if NSUserDefaults.standardUserDefaults().boolForKey("video.showControls"){
+            player.controlsStyle = AVPlayerViewControlsStyle.Default
+        }
     }
     
     override func stop() {
@@ -49,6 +52,23 @@ class ShowVideoContentViewController: ShowContentViewController {
         if (self.player.player?.currentItem != nil){
             self.player.player?.replaceCurrentItemWithPlayerItem(nil)
             finishedPlayback()
+        }
+    }
+    
+    func skip(interval: NSTimeInterval){
+        if let time = player.player?.currentTime(){
+            let zero = CMTime(seconds: 0, preferredTimescale: 1)
+            var new_time = time + CMTimeMakeWithSeconds(interval,1)
+            if new_time < zero{
+                new_time = zero
+            }
+            self.player.player?.seekToTime(new_time, toleranceBefore: zero, toleranceAfter: zero) 
+        }
+    }
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+        if (self.player.player?.currentItem != nil){
+            self.player.player?.replaceCurrentItemWithPlayerItem(nil)
         }
     }
     

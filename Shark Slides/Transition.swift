@@ -16,6 +16,8 @@ class Transition : NSObject{
             switch (transition){
             case "Fade":
                 return FadeTransition()
+            case "None":
+                return FadeTransition()
             default:
                 return nil
             }
@@ -23,9 +25,18 @@ class Transition : NSObject{
         return nil
     }
     
-    var duration : NSTimeInterval {
+    static func duration() -> NSTimeInterval{
+        if let transition = NSUserDefaults.standardUserDefaults().stringForKey("transition"){
+            switch (transition){
+            case "None":
+                return 0
+            default:
+                break
+            }
+        }
         return NSUserDefaults.standardUserDefaults().doubleForKey("transition.duration")
     }
+    
     var parent : NSViewController! = nil
 
     func willShowView(view:NSView!){
@@ -51,7 +62,7 @@ class Transition : NSObject{
         willShowView(toView.view)
         if view != nil{
             NSAnimationContext.runAnimationGroup({ (context : NSAnimationContext) -> Void in
-                context.duration = self.duration
+                context.duration = Transition.duration()
                 if let view = view?.view{
                     self.hideView(view)
                 }

@@ -68,12 +68,16 @@ class SourceSelectViewController: NSViewController, NSOutlineViewDataSource, NSO
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if selection == nil{
+            selection = rootGroup
+        }
         let tree:boxedArray<MLMediaGroup> = boxedArray<MLMediaGroup>()
         lookup(tree, position: rootGroup)
         for var i:Int = tree.count-1; i>=0; --i{
             outlineView.expandItem(tree[i])
         }
         outlineView.selectRowIndexes(NSIndexSet(index: outlineView.rowForItem(selection)), byExtendingSelection: false)
+        
     }
     
     func outlineView(outlineView: NSOutlineView,
