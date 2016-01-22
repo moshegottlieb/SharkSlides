@@ -24,6 +24,11 @@ class ShowImageContentViewController: ShowContentViewController {
         return false
     }
     
+    override class func isSupported(uti:String) -> Bool{
+        return UTTypeConformsTo(uti, kUTTypeImage as String)
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.imageView.image = image
@@ -31,6 +36,7 @@ class ShowImageContentViewController: ShowContentViewController {
     override func viewDidAppear() {
         super.viewDidAppear()
         didPlay(true)
+        success = true
     }
     
 }

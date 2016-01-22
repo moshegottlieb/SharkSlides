@@ -9,6 +9,7 @@
 import Cocoa
 
 class ShowContentViewController: NSViewController {
+    var success : Bool = false
     var url: NSURL! = nil
     
     var completion : ((shouldDelay:Bool) -> ())?
@@ -20,9 +21,9 @@ class ShowContentViewController: NSViewController {
             try url.getResourceValue(&type, forKey: NSURLTypeIdentifierKey)
             if let type = type as? String {
                 var identifier : String?
-                if UTTypeConformsTo(type, kUTTypeAudiovisualContent as String){
+                if ShowVideoContentViewController.isSupported(type){
                     identifier = "ShowVideoContentViewController"
-                } else if UTTypeConformsTo(type, kUTTypeImage as String){
+                } else if ShowImageContentViewController.isSupported(type){
                     identifier = "ShowImageContentViewController"
                 }
                 if let identifier = identifier{
@@ -41,6 +42,10 @@ class ShowContentViewController: NSViewController {
             // nothing
         }
         return nil
+    }
+    
+    class func isSupported(uti:String) -> Bool{
+        return ShowVideoContentViewController.isSupported(uti) || ShowImageContentViewController.isSupported(uti)
     }
     
     func isTimebased() -> Bool {

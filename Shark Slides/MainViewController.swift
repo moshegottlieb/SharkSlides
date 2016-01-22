@@ -129,7 +129,7 @@ class MainViewController: NSViewController , About, Preferences{
             do {
                 try url.getResourceValue(&type, forKey: NSURLTypeIdentifierKey)
                 if let type = type as? String {
-                    if UTTypeConformsTo(type, kUTTypeAudiovisualContent as String) || UTTypeConformsTo(type, kUTTypeImage as String){
+                    if ShowContentViewController.isSupported(type){
                         result.append(url)
                     } else if UTTypeConformsTo(type, kUTTypeFolder as String){
                         var contents : Array<NSURL>!

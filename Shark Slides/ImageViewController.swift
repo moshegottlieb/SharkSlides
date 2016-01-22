@@ -110,6 +110,9 @@ class ImageViewController: NSViewController, NSWindowDelegate {
                 displayedController = content
                 isContentPlaying = true
                 content?.completion = { (shouldDelay:Bool) -> () in
+                    if !content!.success{
+                        --self.playCount
+                    }
                     self.isContentPlaying = false
                     if shouldDelay {
                         self.schedule()
@@ -251,13 +254,10 @@ class ImageViewController: NSViewController, NSWindowDelegate {
         }
     }
     func advance(count: Int){
+        displayedController?.stop()
         index+=count
         if index<0{
             index = 0
-        }
-        if !isPaused{
-            isPaused = true
-            isPaused = false
         }
         playNext(true)
     }
