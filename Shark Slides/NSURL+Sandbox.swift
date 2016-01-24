@@ -15,43 +15,44 @@ extension NSURL {
         }
         return nil
     }
-    static var picturesPath : String! {
-        let pw  = getpwuid(getuid())
-        var home : String! = String.fromCString(pw.memory.pw_dir)
-        home = (home as NSString).stringByAppendingPathComponent("Pictures")
-        return NSURL(fileURLWithPath: home).standardPath()
-    }
-    func saveBookmark(){
-        if let data = try? bookmarkDataWithOptions(.SecurityScopeAllowOnlyReadAccess, includingResourceValuesForKeys: nil, relativeToURL: nil){
-            var dict = NSUserDefaults.standardUserDefaults().dictionaryForKey("bookmarks")
-            if var dict = dict{
-                dict[standardPath()!] = data
+    
+    class func saveBookmarks(urls: Array<NSURL>!){
+        deleteBookmarks()
+        var data_array : Array<NSData> = Array()
+        data_array.reserveCapacity(urls.count)
+        for url in urls{
+            if let data = try? url.bookmarkDataWithOptions(.SecurityScopeAllowOnlyReadAccess, includingResourceValuesForKeys: nil, relativeToURL: nil){
+                data_array.append(data)
             }
-            else {
-                dict = [standardPath()!:data]
-            }
-            NSUserDefaults.standardUserDefaults().setObject(dict, forKey: "bookmarks")
+        }
+        if data_array.count > 0{
+            NSUserDefaults.standardUserDefaults().setObject(data_array, forKey: "bookmarks")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
     }
-
-    func isSandboxed() -> Bool {
-        if !checkPromisedItemIsReachableAndReturnError(nil){
-            let dict = NSUserDefaults.standardUserDefaults().dictionaryForKey("bookmarks")
-            if let dict = dict{
-                var data : NSData?
-                data = dict[standardPath()!]?.data
-                if let data = data{
-                    var isStale : ObjCBool = false
-                    if let _ = try? NSURL(byResolvingBookmarkData: data, options: .WithoutUI, relativeToURL: nil, bookmarkDataIsStale: &isStale){
-                        startAccessingSecurityScopedResource()
-                        return false
+    
+    class func deleteBookmarks(){
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("bookmarks")
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    class func loadBookmarks() -> Array<NSURL>?{
+        let data_array = NSUserDefaults.standardUserDefaults().arrayForKey("bookmarks") as? Array<NSData>
+        if data_array?.count > 0{
+            var urls : Array<NSURL> = Array()
+            for data in data_array!{
+                var isStale : ObjCBool = false
+                if let url = try? NSURL(byResolvingBookmarkData: data, options: .WithoutUI, relativeToURL: nil, bookmarkDataIsStale: &isStale){
+                    if !isStale{
+                        urls.append(url)
                     }
                 }
             }
-        } else {
-            return false
+            if urls.count > 0{
+                return urls
+            }
         }
-        return true
+        return nil
     }
+    
 }

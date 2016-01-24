@@ -82,7 +82,7 @@ class ImageViewController: NSViewController, NSWindowDelegate {
             let url = objects[index]
             ++index
             if index == objects.count{
-                if !autoRepeat || playCount == 0 {
+                if !autoRepeat || playCount == 0 && objects.count > 1{
                     finish()
                     return
                 } else {
@@ -92,14 +92,6 @@ class ImageViewController: NSViewController, NSWindowDelegate {
             var didPlay : Bool = false
         
             url.startAccessingSecurityScopedResource()
-            if (url.isSandboxed()){
-                finish()
-                if let requestAccess = self.requestAccess{
-                    requestAccess(url: url)
-                }
-                url.stopAccessingSecurityScopedResource()
-                return
-            }
             let content = ShowContentViewController.contentController(url, storyBoard: storyboard)
             if ((content?.loadContent(url)) == true){
                 didPlay = true
@@ -114,6 +106,11 @@ class ImageViewController: NSViewController, NSWindowDelegate {
                         --self.playCount
                     }
                     self.isContentPlaying = false
+                    if !self.autoRepeat || self.playCount == 0 && objects.count == 1{
+                        self.finish()
+                        return
+                    }
+                    
                     if shouldDelay {
                         self.schedule()
                     } else {
@@ -122,11 +119,14 @@ class ImageViewController: NSViewController, NSWindowDelegate {
                 }
             }
             url.stopAccessingSecurityScopedResource()
-            
             if !didPlay{
-                dispatch_after(0, dispatch_get_main_queue(), {
-                    self.playNext()
-                })
+                if !self.autoRepeat || self.playCount == 0 && objects.count == 1{
+                    self.finish()
+                } else {
+                    dispatch_after(0, dispatch_get_main_queue(), {
+                        self.playNext()
+                    })
+                }
             }
         }
     }
@@ -135,12 +135,14 @@ class ImageViewController: NSViewController, NSWindowDelegate {
     override func viewWillAppear() {
         super.viewWillAppear()
         self.view.layer?.backgroundColor = NSColor.blackColor().CGColor
-        view.window?.toggleFullScreen(nil)
+        view.window?.styleMask |= NSFullScreenWindowMask
+        NSMenu.setMenuBarVisible(false)
     }
     
     override func viewDidDisappear() {
         super.viewDidDisappear()
         self.view.window?.close()
+        NSMenu.setMenuBarVisible(true)
     }
 
     override func viewDidAppear() {

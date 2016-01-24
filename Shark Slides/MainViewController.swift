@@ -57,6 +57,7 @@ class MainViewController: NSViewController , About, Preferences{
                     if objects.count > 0{
                         let format = NSLocalizedString("FILE_COUNT", comment: "")
                         self.setSource(String(format:format , arguments: [objects.count as Int]), icon: NSImage(named: "photos"))
+                        NSURL.deleteBookmarks()
                     }
                 }){
                     self.presentViewControllerAsSheet(loading!)
@@ -64,6 +65,7 @@ class MainViewController: NSViewController , About, Preferences{
             }
         }
     }
+
     
     var urls : Array<NSURL>? = nil {
         didSet {
@@ -96,6 +98,9 @@ class MainViewController: NSViewController , About, Preferences{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.urls = nil
+        if let urls = NSURL.loadBookmarks(){
+            loadFinderUrls(urls)
+        }
     }
     @IBAction func selectSource(sender: AnyObject) {
         if mediaLibrary == nil{
@@ -147,6 +152,18 @@ class MainViewController: NSViewController , About, Preferences{
         }
     }
     
+    private func loadFinderUrls(urls:Array<NSURL>!) -> Bool{
+        var result : Array<NSURL>! = Array<NSURL>()
+        self.loadUrls(&result,urls: urls)
+        self.urls = result
+        if result.count > 0{
+            let format = NSLocalizedString("FILE_COUNT", comment: "")
+            self.setSource(String(format:format , arguments: [result.count as Int]), icon: NSImage(named:"finder"))
+            return true
+        }
+        return false
+    }
+    
     @IBAction func chooseFromFinder(sender: AnyObject) {
         let open = NSOpenPanel() as NSOpenPanel
         open.canChooseDirectories = true
@@ -157,12 +174,10 @@ class MainViewController: NSViewController , About, Preferences{
         open.prompt = NSLocalizedString("OPEN_FILE_PROMPT", comment: "Choose")
         open.beginSheetModalForWindow(view.window!) { (result:Int) -> Void in
             if result == NSFileHandlingPanelOKButton{
-                var urls : Array<NSURL>! = Array<NSURL>()
-                self.loadUrls(&urls,urls: open.URLs)
-                self.urls = urls
-                if urls.count > 0{
-                    let format = NSLocalizedString("FILE_COUNT", comment: "")
-                    self.setSource(String(format:format , arguments: [urls.count as Int]), icon: NSImage(named:"finder"))
+                if self.loadFinderUrls(open.URLs){
+                    NSURL.saveBookmarks(open.URLs)
+                } else {
+                    NSURL.deleteBookmarks()
                 }
             }
         }

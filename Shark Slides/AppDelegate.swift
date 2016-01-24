@@ -13,7 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        NSUserDefaults.standardUserDefaults().registerDefaults(["interval":1.0,"shuffle":true, "transition.duration":0.3, "transition":"Fade","video.showControls":false,"video.arrowSkip":false,"video.skipInterval":10])
+        NSUserDefaults.standardUserDefaults().registerDefaults(["interval":3.0,"shuffle":true, "transition.duration":0.3, "transition":"Fade","video.showControls":false,"video.arrowSkip":true,"video.skipInterval":10])
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
