@@ -116,14 +116,21 @@ class MainViewController: NSViewController , About, Preferences{
             }
             self.presentViewControllerAsSheet(loading)
         } else {
-
-            let select = storyboard?.instantiateControllerWithIdentifier("SourceSelectViewController") as! SourceSelectViewController
-            select.rootGroup = mediaLibrary?.photosSource.rootMediaGroup
-            select.selection = source
-            select.completion = { (selection:MLMediaGroup!) in
-                self.source = selection
+            if mediaLibrary?.photosSource == nil{
+                let alert = NSAlert()
+                alert.alertStyle = NSAlertStyle.CriticalAlertStyle
+                alert.messageText = NSLocalizedString("NO_PHOTOS_MESSAGE", comment: "Can't find Photos library")
+                alert.informativeText = NSLocalizedString("NO_PHOTOS_INFO", comment: "Photos library not available")
+                alert.beginSheetModalForWindow(self.view.window!, completionHandler: nil)
+            } else {
+                let select = storyboard?.instantiateControllerWithIdentifier("SourceSelectViewController") as! SourceSelectViewController
+                select.rootGroup = mediaLibrary?.photosSource.rootMediaGroup
+                select.selection = source
+                select.completion = { (selection:MLMediaGroup!) in
+                    self.source = selection
+                }
+                presentViewControllerAsSheet(select)
             }
-            presentViewControllerAsSheet(select)
         }
     }
     

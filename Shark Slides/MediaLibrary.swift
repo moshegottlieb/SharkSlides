@@ -18,8 +18,15 @@
         private func loadSources(){
             if let mediaSources = library.mediaSources {
                 photosSource = mediaSources[MLMediaSourcePhotosIdentifier]
-                photosSource.addObserver(self, forKeyPath: "rootMediaGroup", options: NSKeyValueObservingOptions.New, context: nil)
-                photosSource.rootMediaGroup; // load
+                if photosSource != nil{
+                    photosSource.addObserver(self, forKeyPath: "rootMediaGroup", options: NSKeyValueObservingOptions.New, context: nil)
+                    photosSource.rootMediaGroup; // load
+                }
+            }
+            if photosSource == nil{
+                if let completion = completion{
+                    completion()
+                }
             }
         }
         
