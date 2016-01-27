@@ -76,12 +76,16 @@ class MainViewController: NSViewController , About, Preferences{
                 let icon = NSImage(named:"warning")
                 setSource(NSLocalizedString("NO_SELECTION", comment: "Nothing selected"), icon: icon)
                 if urls != nil{
-                    let alert = NSAlert()
-                    alert.messageText = NSLocalizedString("ALERT_NO_URLS", comment: "No playable items found")
-                    alert.informativeText = NSLocalizedString("ALERT_NO_URL_INFO", comment: "")
-                    alert.alertStyle = .WarningAlertStyle
-                    alert.beginSheetModalForWindow(self.view.window!, completionHandler: nil)
-                    alert.icon = icon
+                    if self.view.window != nil{
+                        
+                        let alert = NSAlert()
+                        alert.messageText = NSLocalizedString("ALERT_NO_URLS", comment: "No playable items found")
+                        alert.informativeText = NSLocalizedString("ALERT_NO_URL_INFO", comment: "")
+                        alert.alertStyle = .WarningAlertStyle
+                        
+                        alert.beginSheetModalForWindow(self.view.window!, completionHandler: nil)
+                        alert.icon = icon
+                    }
                     
                 }
             }
