@@ -23,4 +23,4 @@ ALERT_NO_URL_INFO="Your selection did not include any playable files (images or 
 NO_SELECTION="Nothing selected";
 FILE_COUNT="%d files";
 NO_PHOTOS_MESSAGE="Can't find Photos library";
-NO_PHOTOS_INFO="Photos library not available";
+NO_PHOTOS_INFO="Photos library not available, to create a Photos library, start the Apple Photos app and import some photos.";
