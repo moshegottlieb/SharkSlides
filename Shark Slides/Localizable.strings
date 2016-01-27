@@ -22,3 +22,5 @@ ALERT_NO_URLS="No playable items found";
 ALERT_NO_URL_INFO="Your selection did not include any playable files (images or videos)";
 NO_SELECTION="Nothing selected";
 FILE_COUNT="%d files";
+NO_PHOTOS_MESSAGE="Can't find Photos library";
+NO_PHOTOS_INFO="Photos library not available";
