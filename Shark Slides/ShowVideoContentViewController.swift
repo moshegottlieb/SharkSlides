@@ -47,7 +47,6 @@ class ShowVideoContentViewController: ShowContentViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.url.startAccessingSecurityScopedResource()
         self.player.player = AVPlayer(URL: url)
         self.player.player?.addObserver(self, forKeyPath: "status", options: .New, context: nil)
         self.player.player?.currentItem?.addObserver(self, forKeyPath: "status", options: .New, context: nil)
@@ -110,7 +109,6 @@ class ShowVideoContentViewController: ShowContentViewController {
     }
     
     deinit{
-        self.url.stopAccessingSecurityScopedResource()
         self.player.player?.removeObserver(self, forKeyPath: "status")
         self.player.player?.currentItem?.removeObserver(self, forKeyPath: "status")
         self.player.player?.removeTimeObserver(self)

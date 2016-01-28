@@ -60,16 +60,14 @@ class Transition : NSObject{
         self.parent = parent
         parent.addChildViewController(toView)
         willShowView(toView.view)
-        if view != nil{
+        if let view = view{
             NSAnimationContext.runAnimationGroup({ (context : NSAnimationContext) -> Void in
                 context.duration = Transition.duration()
-                if let view = view?.view{
-                    self.hideView(view)
-                }
+                self.hideView(view.view)
                 self.showView(toView.view)
                 }, completionHandler: {
-                    view?.removeFromParentViewController()
-                    view?.view.removeFromSuperview()
+                    view.view.removeFromSuperview()
+                    view.removeFromParentViewController()
                     if let completion = completion{
                         completion()
                     }

@@ -20,7 +20,6 @@ class ShowImageContentViewController: ShowContentViewController {
         if image != nil{
             return true
         }
-        
         return false
     }
     
@@ -28,7 +27,6 @@ class ShowImageContentViewController: ShowContentViewController {
         return UTTypeConformsTo(uti, kUTTypeImage as String)
     }
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.imageView.image = image

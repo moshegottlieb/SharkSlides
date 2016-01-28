@@ -10,7 +10,26 @@ import Cocoa
 
 class ShowContentViewController: NSViewController {
     var success : Bool = false
-    var url: NSURL! = nil
+    private var urlStorage : NSURL!
+    
+    var url: NSURL! {
+        get {
+            return urlStorage
+        }
+        set(newValue){
+            if urlStorage != nil{
+                urlStorage.stopAccessingSecurityScopedResource()
+            }
+            if newValue != nil{
+                newValue.startAccessingSecurityScopedResource()
+            }
+            urlStorage = newValue
+        }
+    }
+    
+    deinit{
+        url = nil
+    }
     
     var completion : ((shouldDelay:Bool) -> ())?
     var isPaused : Bool = false
@@ -76,6 +95,7 @@ class ShowContentViewController: NSViewController {
     func didPlay(shouldDelay:Bool){
         if let completion = self.completion{
             completion(shouldDelay: shouldDelay)
+            self.completion = nil
         }
     }
     

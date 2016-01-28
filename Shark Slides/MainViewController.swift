@@ -82,7 +82,6 @@ class MainViewController: NSViewController , About, Preferences{
                         alert.messageText = NSLocalizedString("ALERT_NO_URLS", comment: "No playable items found")
                         alert.informativeText = NSLocalizedString("ALERT_NO_URL_INFO", comment: "")
                         alert.alertStyle = .WarningAlertStyle
-                        
                         alert.beginSheetModalForWindow(self.view.window!, completionHandler: nil)
                         alert.icon = icon
                     }
@@ -126,6 +125,8 @@ class MainViewController: NSViewController , About, Preferences{
                 alert.messageText = NSLocalizedString("NO_PHOTOS_MESSAGE", comment: "Can't find Photos library")
                 alert.informativeText = NSLocalizedString("NO_PHOTOS_INFO", comment: "Photos library not available")
                 alert.beginSheetModalForWindow(self.view.window!, completionHandler: nil)
+                alert.icon = NSImage(named:"warning")
+                mediaLibrary = nil
             } else {
                 let select = storyboard?.instantiateControllerWithIdentifier("SourceSelectViewController") as! SourceSelectViewController
                 select.rootGroup = mediaLibrary?.photosSource.rootMediaGroup

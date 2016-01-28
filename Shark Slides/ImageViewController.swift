@@ -41,7 +41,7 @@ class ImageViewController: NSViewController, NSWindowDelegate {
     var shuffle : Bool {
         return NSUserDefaults.standardUserDefaults().boolForKey("shuffle")
     }
-    var displayedController : ShowContentViewController?
+    weak var displayedController : ShowContentViewController?
     var messageTimer : Timer?
     
     @IBOutlet weak var captureWindow: KeyCaptureView!
@@ -53,8 +53,9 @@ class ImageViewController: NSViewController, NSWindowDelegate {
     
     private func schedule(){
         timer?.stop()
+        weak var sself = self
         timer = Timer(fire: { () -> () in
-            self.playNext()
+            sself?.playNext()
             }, autoRepeat: false, interval: interval)
         timer?.start()
     }
@@ -62,8 +63,10 @@ class ImageViewController: NSViewController, NSWindowDelegate {
     private func finish(){
         isPaused = true
         displayedController?.stop()
+        weak var sself = self
+        timer?.stop()
         if let completion = self.completion{
-            completion(vc:self)
+            completion(vc:sself)
         }
     }
     
@@ -79,52 +82,46 @@ class ImageViewController: NSViewController, NSWindowDelegate {
                 finish()
                 return
             }
-            let url = objects[index]
-            ++index
-            if index == objects.count{
-                if !autoRepeat || playCount == 0 && objects.count > 1{
+            if objects.count == index{
+                if !autoRepeat{
                     finish()
                     return
                 } else {
                     index = 0
                 }
             }
+            let url = objects[index]
+            ++index
             var didPlay : Bool = false
-        
-            url.startAccessingSecurityScopedResource()
             let content = ShowContentViewController.contentController(url, storyBoard: storyboard)
-            if ((content?.loadContent(url)) == true){
+            if content != nil {
                 didPlay = true
                 ++playCount
-                Transition.defaultTransition()?.transtionFrom(self.displayedController, toView: content, parent: self, completion: { () -> () in
-                    
-                })
+                Transition.defaultTransition()?.transtionFrom(self.displayedController, toView: content, parent: self, completion: nil)
                 displayedController = content
                 isContentPlaying = true
+                weak var sself = self
                 content?.completion = { (shouldDelay:Bool) -> () in
-                    if !content!.success{
-                        --self.playCount
-                    }
-                    self.isContentPlaying = false
-                    if !self.autoRepeat || self.playCount == 0 && objects.count == 1{
-                        self.finish()
-                        return
-                    }
-                    
-                    if shouldDelay {
-                        self.schedule()
-                    } else {
-                        self.playNext()
+                    if let sself = sself{
+                        if !content!.success{
+                            --sself.playCount
+                        }
+                        sself.isContentPlaying = false
+                        if shouldDelay {
+                            sself.schedule()
+                        } else {
+                            sself.playNext()
+                        }
                     }
                 }
             }
-            url.stopAccessingSecurityScopedResource()
             if !didPlay{
-                if !self.autoRepeat || self.playCount == 0 && objects.count == 1{
-                    self.finish()
+                if !autoRepeat || playCount == 0 && objects.count == 1{
+                    finish()
                 } else {
+                    weak var sself = self
                     dispatch_after(0, dispatch_get_main_queue(), {
-                        self.playNext()
+                        sself?.playNext()
                     })
                 }
             }
@@ -152,8 +149,9 @@ class ImageViewController: NSViewController, NSWindowDelegate {
             objects?.shuffleInPlace()
         }
         self.container.hidden = false
+        weak var sself = self
         Timer(fire: { () -> () in
-            self.playNext()
+            sself?.playNext()
             }, autoRepeat: false, interval: 0.5).start()
     }
     
