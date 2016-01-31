@@ -16,6 +16,9 @@ class ShowVideoContentViewController: ShowContentViewController {
     
     
     override class func isSupported(uti:String) -> Bool{
+        if UTTypeConformsTo(uti, kUTTypeAVIMovie as String){
+            return false // explicitly decline AVIs as those are usually not supported by quicktime
+        }
         for support in AVURLAsset.audiovisualTypes(){
             if UTTypeConformsTo(support, uti){
                 return true
