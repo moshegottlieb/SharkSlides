@@ -7,13 +7,17 @@
 //
 
 import Cocoa
+import Fabric
+import Crashlytics
+
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        NSUserDefaults.standardUserDefaults().registerDefaults(["interval":3.0,"shuffle":true, "transition.duration":0.3, "transition":"Fade","video.showControls":false,"video.arrowSkip":true,"video.skipInterval":10])
+        NSUserDefaults.standardUserDefaults().registerDefaults(["NSApplicationCrashOnExceptions":true,"interval":3.0,"shuffle":true, "transition.duration":0.3, "transition":"Fade","video.showControls":false,"video.arrowSkip":true,"video.skipInterval":10])
+        Fabric.with([Crashlytics.self])
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {

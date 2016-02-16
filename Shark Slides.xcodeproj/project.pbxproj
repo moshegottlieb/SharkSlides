@@ -14,6 +14,8 @@
 		9A2114B71C4CF7B6000A0020 /* VideoPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2114B61C4CF7B6000A0020 /* VideoPreferencesViewController.swift */; };
 		9A36507B1C2FF82100326A9C /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36507A1C2FF82100326A9C /* MediaLibrary.swift */; };
 		9A36507F1C30125D00326A9C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36507E1C30125D00326A9C /* MainViewController.swift */; };
+		9A5321C51C73200E00BA4E15 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5321C31C73200E00BA4E15 /* Fabric.framework */; };
+		9A5321C61C73200E00BA4E15 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5321C41C73200E00BA4E15 /* Crashlytics.framework */; };
 		9A6F0F0A1C517A02005F4B34 /* PopoverSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6F0F091C517A02005F4B34 /* PopoverSegue.swift */; };
 		9A6F0F0E1C51920D005F4B34 /* PreferencesSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6F0F0D1C51920D005F4B34 /* PreferencesSegue.swift */; };
 		9A788A1D1C302ADF00ADF0EC /* SourceSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A788A1B1C302ADF00ADF0EC /* SourceSelectViewController.swift */; };
@@ -60,6 +62,8 @@
 		9A2114B61C4CF7B6000A0020 /* VideoPreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPreferencesViewController.swift; sourceTree = "<group>"; };
 		9A36507A1C2FF82100326A9C /* MediaLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		9A36507E1C30125D00326A9C /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		9A5321C31C73200E00BA4E15 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
+		9A5321C41C73200E00BA4E15 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		9A6F0F091C517A02005F4B34 /* PopoverSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverSegue.swift; sourceTree = "<group>"; };
 		9A6F0F0D1C51920D005F4B34 /* PreferencesSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesSegue.swift; sourceTree = "<group>"; };
 		9A788A1B1C302ADF00ADF0EC /* SourceSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceSelectViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +97,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A5321C61C73200E00BA4E15 /* Crashlytics.framework in Frameworks */,
+				9A5321C51C73200E00BA4E15 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +119,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A5321C21C731FF300BA4E15 /* Fabric */ = {
+			isa = PBXGroup;
+			children = (
+				9A5321C31C73200E00BA4E15 /* Fabric.framework */,
+				9A5321C41C73200E00BA4E15 /* Crashlytics.framework */,
+			);
+			name = Fabric;
+			sourceTree = "<group>";
+		};
 		9A80773B1C060597002432D4 = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +151,7 @@
 		9A8077461C060597002432D4 /* Shark Slides */ = {
 			isa = PBXGroup;
 			children = (
+				9A5321C21C731FF300BA4E15 /* Fabric */,
 				9A36507A1C2FF82100326A9C /* MediaLibrary.swift */,
 				9A8077721C0605E2002432D4 /* Shark Slides.entitlements */,
 				9A8077471C060597002432D4 /* AppDelegate.swift */,
@@ -194,6 +210,7 @@
 				9A8077401C060597002432D4 /* Sources */,
 				9A8077411C060597002432D4 /* Frameworks */,
 				9A8077421C060597002432D4 /* Resources */,
+				9A5321C11C731FB300BA4E15 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -318,6 +335,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9A5321C11C731FB300BA4E15 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run aa1a2dad037d7a1c312e0d9d8297e55779b1f2a6 08e604c436495ea93ece49424df843f65b73fa73961f0143b0f605f0403a3e70";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9A8077401C060597002432D4 /* Sources */ = {
@@ -480,6 +513,11 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Shark Slides/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sharkfood.Shark-Slides";
@@ -498,6 +536,10 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Shark Slides/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sharkfood.Shark-Slides";

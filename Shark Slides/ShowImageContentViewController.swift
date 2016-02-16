@@ -36,7 +36,6 @@ class ShowImageContentViewController: ShowContentViewController {
         didPlay(true)
         success = true
     }
-    
 }
 
 class ScaledImageView : NSView{

@@ -101,9 +101,10 @@ class ImageViewController: NSViewController, NSWindowDelegate {
                 displayedController = content
                 isContentPlaying = true
                 weak var sself = self
+                weak var ccontent = content
                 content?.completion = { (shouldDelay:Bool) -> () in
-                    if let sself = sself{
-                        if !content!.success{
+                    if let sself = sself, content = ccontent{
+                        if !content.success{
                             --sself.playCount
                         }
                         sself.isContentPlaying = false
@@ -259,7 +260,9 @@ class ImageViewController: NSViewController, NSWindowDelegate {
         if index<0{
             index = 0
         }
-        playNext(true)
+        dispatch_after(0, dispatch_get_main_queue(), {
+            self.playNext(true)
+        })
     }
 }
 

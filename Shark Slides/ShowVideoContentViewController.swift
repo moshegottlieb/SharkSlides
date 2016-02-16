@@ -15,6 +15,7 @@ class ShowVideoContentViewController: ShowContentViewController {
     @IBOutlet weak var player: AVPlayerView!
     
     
+    
     override class func isSupported(uti:String) -> Bool{
         if UTTypeConformsTo(uti, kUTTypeAVIMovie as String){
             return false // explicitly decline AVIs as those are usually not supported by quicktime
@@ -51,21 +52,35 @@ class ShowVideoContentViewController: ShowContentViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.player.player = AVPlayer(URL: url)
-        self.player.player?.addObserver(self, forKeyPath: "status", options: .New, context: nil)
-        self.player.player?.currentItem?.addObserver(self, forKeyPath: "status", options: .New, context: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("finishedPlayback"), name: AVPlayerItemFailedToPlayToEndTimeNotification, object: self.player.player?.currentItem)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("finishedPlayback"), name: AVPlayerItemDidPlayToEndTimeNotification, object: self.player.player?.currentItem)
-        player.player?.play()
-        if NSUserDefaults.standardUserDefaults().boolForKey("video.showControls"){
-            player.controlsStyle = AVPlayerViewControlsStyle.Default
+        if let player = player.player{
+            player.addObserver(self, forKeyPath: "status", options: .New, context: nil)
+            playerObserverd = true
+            if let currentItem = player.currentItem{
+                currentItem.addObserver(self, forKeyPath: "status", options: .New, context: nil)
+                itemObserverd = true
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("finishedPlayback"), name: AVPlayerItemFailedToPlayToEndTimeNotification, object: self.player.player?.currentItem)
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("finishedPlayback"), name: AVPlayerItemDidPlayToEndTimeNotification, object: self.player.player?.currentItem)
+                player.play()
+                if NSUserDefaults.standardUserDefaults().boolForKey("video.showControls"){
+                    self.player.controlsStyle = AVPlayerViewControlsStyle.Default
+                }
+                if currentItem.status == .Failed{
+                    stop()
+                } else {
+                    let sec = CMTime(seconds: 1, preferredTimescale: 1)
+                    weak var sself = self
+                    timeObserver = player.addPeriodicTimeObserverForInterval(sec, queue: nil, usingBlock: { (time:CMTime) -> Void in
+                        if let sself = sself, timeObserver = sself.timeObserver {
+                            sself.success = true
+                            player.removeTimeObserver(timeObserver)
+                            sself.timeObserver = nil
+                        }
+                    })
+                }
+                
+            }
+            
         }
-        if player.player?.currentItem?.status == .Failed{
-            stop()
-        }
-        let sec = CMTime(seconds: 1, preferredTimescale: 1)
-        player.player?.addPeriodicTimeObserverForInterval(sec, queue: nil, usingBlock: { (time:CMTime) -> Void in
-            self.success = true
-        })
     }
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if let player = object as? AVPlayer{
@@ -84,10 +99,9 @@ class ShowVideoContentViewController: ShowContentViewController {
     }
     
     override func stop() {
+        cleanup()
         super.stop()
-        NSNotificationCenter.defaultCenter().removeObserver(self)
         if (self.player.player?.currentItem != nil){
-            self.player.player?.currentItem?.removeObserver(self, forKeyPath: "status")
             self.player.player?.replaceCurrentItemWithPlayerItem(nil)
             finishedPlayback()
         }
@@ -103,18 +117,33 @@ class ShowVideoContentViewController: ShowContentViewController {
             self.player.player?.seekToTime(new_time, toleranceBefore: zero, toleranceAfter: zero) 
         }
     }
-    override func viewWillDisappear() {
-        super.viewWillDisappear()
-        if (self.player.player?.currentItem != nil){
+    
+    private func cleanup(){
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        if let timeObserver = timeObserver{
+            self.player.player?.removeTimeObserver(timeObserver)
+            self.timeObserver = nil
+        }
+        if playerObserverd{
             self.player.player?.currentItem?.removeObserver(self, forKeyPath: "status")
-            self.player.player?.replaceCurrentItemWithPlayerItem(nil)
+            playerObserverd = false
+        }
+        if itemObserverd{
+            self.player.player?.removeObserver(self, forKeyPath: "status")
+            itemObserverd = false
         }
     }
     
-    deinit{
-        self.player.player?.removeObserver(self, forKeyPath: "status")
-        self.player.player?.currentItem?.removeObserver(self, forKeyPath: "status")
-        self.player.player?.removeTimeObserver(self)
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+        cleanup()
+        if (self.player.player?.currentItem != nil){
+            self.player.player?.replaceCurrentItemWithPlayerItem(nil)
+        }
     }
+        
+    private var timeObserver : AnyObject? = nil
+    private var playerObserverd : Bool = false
+    private var itemObserverd : Bool = false
     
 }
