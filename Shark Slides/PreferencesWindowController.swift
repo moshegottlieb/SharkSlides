@@ -26,10 +26,10 @@ class PreferencesWindowController: NSWindowController,About {
     }
     
     @IBAction func slideshow(sender: AnyObject) {
-        self.contentViewController?.performSegueWithIdentifier("Slideshow", sender: sender)
+        contentViewController?.performSegueWithIdentifier("Slideshow", sender: sender)
     }
     @IBAction func video(sender: AnyObject) {
-        self.contentViewController?.performSegueWithIdentifier("Video", sender: sender)
+        contentViewController?.performSegueWithIdentifier("Video", sender: sender)
     }
     func about(){
         infoButton.target?.performSelector(infoButton.action, withObject: self)

@@ -14,6 +14,7 @@
 		9A2114B71C4CF7B6000A0020 /* VideoPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2114B61C4CF7B6000A0020 /* VideoPreferencesViewController.swift */; };
 		9A36507B1C2FF82100326A9C /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36507A1C2FF82100326A9C /* MediaLibrary.swift */; };
 		9A36507F1C30125D00326A9C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36507E1C30125D00326A9C /* MainViewController.swift */; };
+		9A485F451C7EFE9C00EE57E8 /* ReplaceSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A485F441C7EFE9C00EE57E8 /* ReplaceSegue.swift */; };
 		9A5321C51C73200E00BA4E15 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5321C31C73200E00BA4E15 /* Fabric.framework */; };
 		9A5321C61C73200E00BA4E15 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5321C41C73200E00BA4E15 /* Crashlytics.framework */; };
 		9A6F0F0A1C517A02005F4B34 /* PopoverSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6F0F091C517A02005F4B34 /* PopoverSegue.swift */; };
@@ -62,6 +63,7 @@
 		9A2114B61C4CF7B6000A0020 /* VideoPreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPreferencesViewController.swift; sourceTree = "<group>"; };
 		9A36507A1C2FF82100326A9C /* MediaLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		9A36507E1C30125D00326A9C /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		9A485F441C7EFE9C00EE57E8 /* ReplaceSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplaceSegue.swift; sourceTree = "<group>"; };
 		9A5321C31C73200E00BA4E15 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		9A5321C41C73200E00BA4E15 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		9A6F0F091C517A02005F4B34 /* PopoverSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverSegue.swift; sourceTree = "<group>"; };
@@ -119,6 +121,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A485F431C7EFE6900EE57E8 /* Segues */ = {
+			isa = PBXGroup;
+			children = (
+				9A2114B41C4CF549000A0020 /* FadeInSegue.swift */,
+				9A6F0F091C517A02005F4B34 /* PopoverSegue.swift */,
+				9A6F0F0D1C51920D005F4B34 /* PreferencesSegue.swift */,
+				9A485F441C7EFE9C00EE57E8 /* ReplaceSegue.swift */,
+			);
+			name = Segues;
+			sourceTree = "<group>";
+		};
 		9A5321C21C731FF300BA4E15 /* Fabric */ = {
 			isa = PBXGroup;
 			children = (
@@ -174,10 +187,8 @@
 				9A2114AC1C4CD1AA000A0020 /* PreferencesViewController.swift */,
 				9A2114AE1C4CD9E5000A0020 /* PreferencesWindowController.swift */,
 				9A2114B21C4CF3B6000A0020 /* SlideshowPreferencesViewController.swift */,
-				9A2114B41C4CF549000A0020 /* FadeInSegue.swift */,
+				9A485F431C7EFE6900EE57E8 /* Segues */,
 				9A2114B61C4CF7B6000A0020 /* VideoPreferencesViewController.swift */,
-				9A6F0F091C517A02005F4B34 /* PopoverSegue.swift */,
-				9A6F0F0D1C51920D005F4B34 /* PreferencesSegue.swift */,
 			);
 			path = "Shark Slides";
 			sourceTree = "<group>";
@@ -363,6 +374,7 @@
 				9A80774A1C060597002432D4 /* LoadingController.swift in Sources */,
 				9A8D058A1C38FE8600B55030 /* ShowImageContentViewController.swift in Sources */,
 				9A2114AD1C4CD1AA000A0020 /* PreferencesViewController.swift in Sources */,
+				9A485F451C7EFE9C00EE57E8 /* ReplaceSegue.swift in Sources */,
 				9A2114B71C4CF7B6000A0020 /* VideoPreferencesViewController.swift in Sources */,
 				9A2114B51C4CF549000A0020 /* FadeInSegue.swift in Sources */,
 				9A36507F1C30125D00326A9C /* MainViewController.swift in Sources */,

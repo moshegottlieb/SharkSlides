@@ -728,8 +728,8 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                     </view>
                     <connections>
-                        <segue destination="zsO-jI-S1a" kind="custom" identifier="Slideshow" customClass="FadeInSegue" customModule="Shark_Slides" customModuleProvider="target" id="NfO-cH-aEQ"/>
-                        <segue destination="Tq1-ru-xjc" kind="custom" identifier="Video" customClass="FadeInSegue" customModule="Shark_Slides" customModuleProvider="target" id="SJP-gI-jia"/>
+                        <segue destination="zsO-jI-S1a" kind="custom" identifier="Slideshow" customClass="ReplaceSegue" customModule="Shark_Slides" customModuleProvider="target" id="NfO-cH-aEQ"/>
+                        <segue destination="Tq1-ru-xjc" kind="custom" identifier="Video" customClass="ReplaceSegue" customModule="Shark_Slides" customModuleProvider="target" id="SJP-gI-jia"/>
                     </connections>
                 </viewController>
                 <customObject id="gdv-ke-G4m" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

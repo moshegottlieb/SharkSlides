@@ -62,21 +62,18 @@ class Transition : NSObject{
         willShowView(toView.view)
         if let view = view{
             weak var sself = self
-            weak var vview = view
             weak var ttoView = toView
             NSAnimationContext.runAnimationGroup({ (context : NSAnimationContext) -> Void in
-                if let sself = sself, view = vview, toView = ttoView {
+                if let sself = sself, toView = ttoView {
                     context.duration = Transition.duration()
                     sself.hideView(view.view)
                     sself.showView(toView.view)
                 }
                 }, completionHandler: {
-                    if let view = vview {
-                        view.view.removeFromSuperview()
-                        view.removeFromParentViewController()
-                        if let completion = completion{
-                            completion()
-                        }
+                    view.view.removeFromSuperview()
+                    view.removeFromParentViewController()
+                    if let completion = completion{
+                        completion()
                     }
             })
         } else {
