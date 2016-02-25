@@ -110,8 +110,13 @@ class SourceSelectViewController: NSViewController, NSOutlineViewDataSource, NSO
             if let image = (item as? MLMediaGroup)?.iconImage{
                 imageCell.image = image
             } else {
+                weak var outlineView = outlineView
+                weak var item = item
+                weak var sself = self
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.2 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                    outlineView.reloadItem(item)
+                    if let outlineView = outlineView , item = item , _ = sself{
+                        outlineView.reloadItem(item)
+                    }
                 })
             }
         } else {
