@@ -12,8 +12,8 @@ class FadeInSegue: NSStoryboardSegue {
     override func perform() {
         let fade = FadeTransition()
         let parent = self.sourceController as! NSViewController
-        let from = (parent).childViewControllers.first
+        let from = (parent).children.first
         let to = self.destinationController as! NSViewController
-        fade.transtionFrom(from, toView: to, parent: parent, completion: nil)
+        fade.transtionFrom(view: from, toView: to, parent: parent, completion: nil)
     }
 }

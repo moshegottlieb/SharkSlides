@@ -19,7 +19,7 @@
             if let mediaSources = library.mediaSources {
                 photosSource = mediaSources[MLMediaSourcePhotosIdentifier]
                 if photosSource != nil{
-                    photosSource.addObserver(self, forKeyPath: "rootMediaGroup", options: NSKeyValueObservingOptions.New, context: nil)
+                    photosSource.addObserver(self, forKeyPath: "rootMediaGroup", options: NSKeyValueObservingOptions.new, context: nil)
                     photosSource.rootMediaGroup; // load
                 }
             }

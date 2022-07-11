@@ -11,18 +11,18 @@ import Cocoa
 class FadeTransition: Transition {
     
     override func willShowView(view:NSView!){
-        super.willShowView(view)
+        super.willShowView(view: view)
         view.alphaValue = 0
     }
     override func willHideView(view:NSView!){
-        super.willHideView(view)
+        super.willHideView(view: view)
     }
     override func hideView(view:NSView!){
-        super.hideView(view)
+        super.hideView(view: view)
         view.animator().alphaValue = 0
     }
     override func showView(view:NSView!){
-        super.showView(view)
+        super.showView(view: view)
         view.animator().alphaValue = 1
     }
     

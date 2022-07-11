@@ -10,7 +10,7 @@ import Cocoa
 
 class VideoPreferencesViewController: NSViewController {
     let skipTimesTitles : [String]!
-    let skipTimesValues : [NSTimeInterval]!
+    let skipTimesValues : [TimeInterval]!
     @IBOutlet weak var skipTimes: NSPopUpButton!
 
     required init?(coder: NSCoder) {
@@ -20,18 +20,18 @@ class VideoPreferencesViewController: NSViewController {
     }
     
     @IBAction func skipChanged(sender: AnyObject) {
-        NSUserDefaults.standardUserDefaults().setDouble(skipTimesValues[skipTimes.indexOfSelectedItem], forKey: "video.skipInterval")
+        UserDefaults.standard.set(skipTimesValues[skipTimes.indexOfSelectedItem], forKey: "video.skipInterval")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        var index = 0
-        let selection = NSUserDefaults.standardUserDefaults().doubleForKey("video.skipInterval")
-        for (index = 0; index < skipTimesValues.count;++index){
+        let selection = UserDefaults.standard.double(forKey: "video.skipInterval")
+        let index:Int
+        for index in 0..<skipTimesValues.count {
             if skipTimesValues[index] == selection{
                 break
             }
         }
-        self.skipTimes.selectItemAtIndex(index)
+        self.skipTimes.selectItem(at: index)
     }
     
 }

@@ -31,15 +31,15 @@ class ImageViewController: NSViewController, NSWindowDelegate {
     
     var objects : Array<NSURL>?
     var autoRepeat : Bool {
-        return NSUserDefaults.standardUserDefaults().boolForKey("repeat")
+        return UserDefaults.standard.bool(forKey: "repeat")
     }
-    var completion : ((vc: NSViewController!) -> ())?
-    var requestAccess : ((url:NSURL!)->())?
-    var interval : NSTimeInterval {
-        return NSUserDefaults.standardUserDefaults().doubleForKey("interval") + Transition.duration()
+    var completion : ((NSViewController) -> ())?
+    var requestAccess : ((NSURL)->())?
+    var interval : TimeInterval {
+        return UserDefaults.standard.double(forKey: "interval") + Transition.duration()
     }
     var shuffle : Bool {
-        return NSUserDefaults.standardUserDefaults().boolForKey("shuffle")
+        return UserDefaults.standard.bool(forKey: "shuffle")
     }
     weak var displayedController : ShowContentViewController?
     var messageTimer : Timer?
@@ -66,12 +66,13 @@ class ImageViewController: NSViewController, NSWindowDelegate {
         weak var sself = self
         timer?.stop()
         if let completion = self.completion{
-            completion(vc:sself)
+            guard let sself = sself else { return }
+            completion(sself)
         }
     }
     
     @objc private func playNext(){
-        playNext(false)
+        playNext(noCheck:false)
     }
     private func playNext(noCheck: Bool){
         if !noCheck && (isContentPlaying || isPaused){
@@ -91,21 +92,21 @@ class ImageViewController: NSViewController, NSWindowDelegate {
                 }
             }
             let url = objects[index]
-            ++index
+            index += 1
             var didPlay : Bool = false
-            let content = ShowContentViewController.contentController(url, storyBoard: storyboard)
+            let content = ShowContentViewController.contentController(url: url, storyBoard: storyboard)
             if content != nil {
                 didPlay = true
-                ++playCount
-                Transition.defaultTransition()?.transtionFrom(self.displayedController, toView: content, parent: self, completion: nil)
+                playCount += 1
+                Transition.defaultTransition()?.transtionFrom(view: self.displayedController, toView: content, parent: self, completion: nil)
                 displayedController = content
                 isContentPlaying = true
                 weak var sself = self
                 weak var ccontent = content
                 content?.completion = { (shouldDelay:Bool) -> () in
-                    if let sself = sself, content = ccontent{
+                    if let sself = sself, let content = ccontent{
                         if !content.success{
-                            --sself.playCount
+                            sself.playCount -= 1
                         }
                         sself.isContentPlaying = false
                         if shouldDelay {
@@ -121,9 +122,9 @@ class ImageViewController: NSViewController, NSWindowDelegate {
                     finish()
                 } else {
                     weak var sself = self
-                    dispatch_after(0, dispatch_get_main_queue(), {
+                    DispatchQueue.main.async {
                         sself?.playNext()
-                    })
+                    }
                 }
             }
         }
@@ -132,8 +133,8 @@ class ImageViewController: NSViewController, NSWindowDelegate {
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        self.view.layer?.backgroundColor = NSColor.blackColor().CGColor
-        view.window?.styleMask |= NSFullScreenWindowMask
+        self.view.layer?.backgroundColor = NSColor.black.cgColor
+        view.window?.styleMask.update(with: .fullScreen)
         NSMenu.setMenuBarVisible(false)
     }
     
@@ -147,9 +148,9 @@ class ImageViewController: NSViewController, NSWindowDelegate {
         super.viewDidAppear()
         view.window?.makeFirstResponder(captureWindow)
         if shuffle{
-            objects?.shuffleInPlace()
+            objects?.shuffle()
         }
-        self.container.hidden = false
+        self.container.isHidden = false
         weak var sself = self
         Timer(fire: { () -> () in
             sself?.playNext()
@@ -158,18 +159,18 @@ class ImageViewController: NSViewController, NSWindowDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.container.hidden = true
-        self.container.layer?.backgroundColor = NSColor.clearColor().CGColor
-        self.captureWindow.layer?.backgroundColor = NSColor.clearColor().CGColor
+        self.container.isHidden = true
+        self.container.layer?.backgroundColor = NSColor.clear.cgColor
+        self.captureWindow.layer?.backgroundColor = NSColor.clear.cgColor
         let img = NSImage(size: NSSize(width: 1, height: 1))
         self.cursor = NSCursor(image: img, hotSpot: NSPoint(x: 0, y: 0))
     }
     
-    override func cursorUpdate(event: NSEvent) {
+    override func cursorUpdate(with event: NSEvent) {
         self.view.addCursorRect(self.view.bounds, cursor: cursor!)
     }
     
-    override func mouseUp(theEvent: NSEvent) {
+    override func mouseUp(with theEvent: NSEvent) {
         
     }
     
@@ -180,9 +181,9 @@ class ImageViewController: NSViewController, NSWindowDelegate {
         self.message?.cell?.image = NSImage(named: message)
         let views : [String: AnyObject] = ["message" : self.message!]
         self.view.addSubview(self.message!)
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[message]-20-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
-        self.view.addConstraint(NSLayoutConstraint(item: self.message!, attribute:.CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1, constant: 0))
-        self.message?.hidden = false
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[message]-20-|", options: [], metrics: nil, views: views))
+        self.view.addConstraint(NSLayoutConstraint(item: self.message!, attribute:.centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: 0))
+        self.message?.isHidden = false
         self.message?.alphaValue = 0
         messageTimer?.stop()
         messageTimer = nil
@@ -195,7 +196,7 @@ class ImageViewController: NSViewController, NSWindowDelegate {
                         context.duration = 0.3
                         self.message?.alphaValue = 0
                         }, completionHandler:  {
-                            self.message?.hidden = true
+                            self.message?.isHidden = true
                             self.messageTimer?.stop()
                             self.messageTimer = nil
                     })
@@ -206,50 +207,50 @@ class ImageViewController: NSViewController, NSWindowDelegate {
         
     }
     
-    override func keyDown(theEvent: NSEvent) {
-        let unichar = (theEvent.characters! as NSString).characterAtIndex(0)
-        let command = (theEvent.modifierFlags.rawValue & NSEventModifierFlags.CommandKeyMask.rawValue) != 0
+    override func keyDown(with theEvent: NSEvent) {
+        let unichar = (theEvent.characters! as NSString).character(at: 0)
+        let command = (theEvent.modifierFlags.rawValue & NSEvent.ModifierFlags.command.rawValue) != 0
         switch unichar{
         case 27: // Escape
            finish()
         case 32: // Space
             if isPaused{
                 isPaused = false
-                showMessage("play")
+                showMessage(message:"play")
                 if let displayedController = displayedController{
                     if !displayedController.isTimebased(){
-                        playNext(true)
+                        playNext(noCheck:true)
                     }
                 } else {
-                    playNext(true)
+                    playNext(noCheck:true)
                 }
                 
             } else {
                 isPaused = true
-                showMessage("pause")
+                showMessage(message:"pause")
             }
         case UInt16(NSLeftArrowFunctionKey):
             if let displayedController = displayedController{
-                if !command && displayedController.isKindOfClass(ShowVideoContentViewController){
-                    let video : ShowVideoContentViewController! = displayedController as! ShowVideoContentViewController
-                    video.skip(NSUserDefaults.standardUserDefaults().doubleForKey("video.skipInterval")*(-1.0))
+                if !command && displayedController.isKind(of: ShowVideoContentViewController.self){
+                    let video = displayedController as! ShowVideoContentViewController
+                    video.skip(interval: UserDefaults.standard.double(forKey: "video.skipInterval")*(-1.0))
                     break
                 }
             }
             
-            advance(-2)
-            showMessage("previous")
+            advance(count:-2)
+            showMessage(message:"previous")
         case UInt16(NSRightArrowFunctionKey):
             if let displayedController = displayedController{
-                if !command && displayedController.isKindOfClass(ShowVideoContentViewController){
-                    let video : ShowVideoContentViewController! = displayedController as! ShowVideoContentViewController
-                    video.skip(NSUserDefaults.standardUserDefaults().doubleForKey("video.skipInterval"))
+                if !command && displayedController.isKind(of: ShowVideoContentViewController.self){
+                    let video = displayedController as! ShowVideoContentViewController
+                    video.skip(interval:UserDefaults.standard.double(forKey:"video.skipInterval"))
                     break
                 }
                 
             }
-            advance(0)
-            showMessage("next")
+            advance(count:0)
+            showMessage(message:"next")
         default:
             break
         }
@@ -260,34 +261,12 @@ class ImageViewController: NSViewController, NSWindowDelegate {
         if index<0{
             index = 0
         }
-        dispatch_after(0, dispatch_get_main_queue(), {
-            self.playNext(true)
-        })
-    }
-}
-
-
-extension CollectionType {
-    /// Return a copy of `self` with its elements shuffled
-    func shuffle() -> [Generator.Element] {
-        var list = Array(self)
-        list.shuffleInPlace()
-        return list
-    }
-}
-extension MutableCollectionType where Index == Int {
-    /// Shuffle the elements of `self` in-place.
-    mutating func shuffleInPlace() {
-        // empty and single-element collections don't shuffle
-        if count < 2 { return }
-        
-        for i in 0..<count - 1 {
-            let j = Int(arc4random_uniform(UInt32(count - i))) + i
-            guard i != j else { continue }
-            swap(&self[i], &self[j])
+        DispatchQueue.main.async {
+            self.playNext(noCheck:true)
         }
     }
 }
+
 
 class KeyCaptureView : NSImageView {
     @IBOutlet weak var viewController:NSViewController!{

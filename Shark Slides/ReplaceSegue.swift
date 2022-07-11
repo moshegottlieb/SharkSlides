@@ -12,14 +12,14 @@ class ReplaceSegue: NSStoryboardSegue {
     override func perform() {
         let parent = sourceController as! NSViewController
         let toView = destinationController as! NSViewController
-        let from = (parent).childViewControllers.first
-        parent.addChildViewController(toView)
+        let from = (parent).children.first
+        parent.addChild(toView)
         parent.view.addSubview(toView.view)
         toView.view.translatesAutoresizingMaskIntoConstraints = false
         let views = ["to":toView.view]
-        parent.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[to]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
-        parent.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[to]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
-        from?.removeFromParentViewController()
+        parent.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[to]-0-|", options: [], metrics: nil, views: views))
+        parent.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[to]-0-|", options: [], metrics: nil, views: views))
+        from?.removeFromParent()
         from?.view.removeFromSuperview()
     }
 }

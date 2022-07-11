@@ -13,8 +13,8 @@ class AboutViewController: NSViewController {
     @IBOutlet weak var aboutLabel: NSTextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        let bundle = NSBundle.mainBundle()
-        let info : [String:AnyObject]! = bundle.infoDictionary
+        let bundle = Bundle.main
+        let info = bundle.infoDictionary!
         let name = info[kCFBundleNameKey as String] as! String
         let build = info[kCFBundleVersionKey as String] as! String
         let ver = info["CFBundleShortVersionString"] as! String
@@ -24,7 +24,7 @@ class AboutViewController: NSViewController {
     }
     
     @IBAction func openLink(sender: AnyObject) {
-        NSWorkspace.sharedWorkspace().openURL(NSURL(string: "http://sharkfood.com")!)
+        NSWorkspace.shared.open(URL(string: "http://sharkfood.com")!)
         self.view.window?.orderOut(self)
     }
 }
